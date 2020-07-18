@@ -1,6 +1,6 @@
 package com.ironhack.GroupService.controller.impl;
 
-import com.ironhack.GroupService.controller.interfaces.GroupController;
+import com.ironhack.GroupService.controller.interfaces.IGroupController;
 import com.ironhack.GroupService.dto.GroupUpdateDto;
 import com.ironhack.GroupService.model.Group;
 import com.ironhack.GroupService.service.GroupService;
@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-public class GroupControllerImpl implements GroupController {
+public class GroupController implements IGroupController {
     @Autowired
     private GroupService groupService;
 

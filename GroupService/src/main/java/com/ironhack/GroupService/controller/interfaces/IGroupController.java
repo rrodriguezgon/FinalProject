@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public interface GroupController {
+public interface IGroupController {
     /**
      *
      * @return

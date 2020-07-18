@@ -1,33 +1,25 @@
-package com.ironhack.PadelFriendsService.model.Entity;
+package com.ironhack.PadelFriendsService.dto;
 
-import java.time.LocalDateTime;
+import com.ironhack.PadelFriendsService.model.Entity.UserGroup;
 
-public class Group {
-    private String id;
+import java.util.List;
 
+public class CreateGroupDto {
     private String name;
 
     private String description;
 
     private String image;
 
-    private LocalDateTime createdAt;
+    private List<UserGroup> userGroupList;
 
-    public Group(){}
+    public CreateGroupDto(){}
 
-    public Group(String name, String description, String image, LocalDateTime createdAt) {
+    public CreateGroupDto(String name, String description, String image, List<UserGroup> userGroupList) {
         this.name = name;
         this.description = description;
         this.image = image;
-        this.createdAt = createdAt;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+        this.userGroupList = userGroupList;
     }
 
     public String getName() {
@@ -54,11 +46,11 @@ public class Group {
         this.image = image;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public List<UserGroup> getUserGroupList() {
+        return userGroupList;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setUserGroupList(List<UserGroup> userGroupList) {
+        this.userGroupList = userGroupList;
     }
 }
