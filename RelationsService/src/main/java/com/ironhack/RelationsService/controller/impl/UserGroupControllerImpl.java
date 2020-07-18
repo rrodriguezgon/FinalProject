@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,33 +23,33 @@ public class UserGroupControllerImpl implements UserGroupController {
         return userGroupService.findAll();
     }
 
-    @GetMapping("/usergroups/group/{uuid}")
+    @GetMapping("/usergroups/group/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public List<UserGroup> findByUserGroupIDUuidGroup(String uuidGroup) {
+    public List<UserGroup> findByUserGroupIDUuidGroup(@PathVariable("id") String uuidGroup) {
         return userGroupService.findByUserGroupIDUuidGroup(uuidGroup);
     }
 
-    @GetMapping("/usergroups/reservation/{uuid}")
+    @GetMapping("/usergroups/reservation/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public List<UserGroup> findByUserGroupIDUuidUser(String uuidUser) {
+    public List<UserGroup> findByUserGroupIDUuidUser(@PathVariable("id") String uuidUser) {
         return userGroupService.findByUserGroupIDUuidUser(uuidUser);
     }
 
     @PostMapping("/usergroups")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserGroup create(UserGroup userGroup) {
+    public UserGroup create(@RequestBody @Valid UserGroup userGroup) {
         return userGroupService.create(userGroup);
     }
 
-    @DeleteMapping("/usergroups/reservation/{uuid}")
+    @DeleteMapping("/usergroups/reservation/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUser(String uuidUser) {
+    public void deleteUser(@PathVariable("id") String uuidUser) {
         userGroupService.deleteUser(uuidUser);
     }
 
-    @DeleteMapping("/usergroups/group/{uuid}")
+    @DeleteMapping("/usergroups/group/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteGroup(String uuidGroup) {
+    public void deleteGroup(@PathVariable("id") String uuidGroup) {
         userGroupService.deleteGroup(uuidGroup);
     }
 }

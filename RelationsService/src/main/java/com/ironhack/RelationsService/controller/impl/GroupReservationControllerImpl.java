@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -21,33 +22,33 @@ public class GroupReservationControllerImpl implements GroupReservationControlle
         return groupReservationService.findAll();
     }
 
-    @GetMapping("/groupreservations/group/{uuid}")
+    @GetMapping("/groupreservations/group/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public List<GroupReservation> findByGroupReservationIDUuidGroup(String uuidGroup) {
-        return groupReservationService.findByGroupReservationIDUuidGroup(uuidGroup);
+    public List<GroupReservation> findByGroupReservationIDUuidGroup(@PathVariable("id") String id) {
+        return groupReservationService.findByGroupReservationIDUuidGroup(id);
     }
 
-    @GetMapping("/groupreservations/reservation/{uuid}")
+    @GetMapping("/groupreservations/reservation/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public List<GroupReservation> findByGroupReservationIDUuidReservation(String uuidReservation) {
-        return groupReservationService.findByGroupReservationIDUuidReservation(uuidReservation);
+    public List<GroupReservation> findByGroupReservationIDUuidReservation(@PathVariable("id") String id) {
+        return groupReservationService.findByGroupReservationIDUuidReservation(id);
     }
 
     @PostMapping("/groupreservations")
     @ResponseStatus(HttpStatus.CREATED)
-    public GroupReservation create(GroupReservation groupReservation) {
+    public GroupReservation create(@RequestBody @Valid GroupReservation groupReservation) {
         return groupReservationService.create(groupReservation);
     }
 
-    @DeleteMapping("/groupreservations/reservation/{uuid}")
+    @DeleteMapping("/groupreservations/reservation/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteReservation(String uuidReservation) {
+    public void deleteReservation(@PathVariable("id") String uuidReservation) {
         groupReservationService.deleteReservation(uuidReservation);
     }
 
-    @DeleteMapping("/groupreservations/group/{uuid}")
+    @DeleteMapping("/groupreservations/group/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteGroup(String uuidGroup) {
+    public void deleteGroup(@PathVariable("id") String uuidGroup) {
         groupReservationService.deleteGroup(uuidGroup);
     }
 }
