@@ -40,6 +40,15 @@ public class ReservationService {
 
     /**
      *
+     * @param id
+     * @return
+     */
+    public List<Reservation> findByClubId(String id) {
+        return reservationRepository.findByClubId(id);
+    }
+
+    /**
+     *
      * @param reservation
      * @return
      */

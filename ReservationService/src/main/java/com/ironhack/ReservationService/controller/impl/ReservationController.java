@@ -1,6 +1,6 @@
 package com.ironhack.ReservationService.controller.impl;
 
-import com.ironhack.ReservationService.controller.interfaces.ReservationController;
+import com.ironhack.ReservationService.controller.interfaces.IReservationController;
 import com.ironhack.ReservationService.model.Reservation;
 import com.ironhack.ReservationService.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import java.util.List;
  *
  */
 @RestController
-public class ReservationControllerImpl implements ReservationController {
+public class ReservationController implements IReservationController {
 
     @Autowired
     private ReservationService reservationService;
@@ -38,6 +38,17 @@ public class ReservationControllerImpl implements ReservationController {
     @ResponseStatus(HttpStatus.OK)
     public Reservation findById(@PathVariable("id") String id) {
         return reservationService.findById(id);
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/reservations/club/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Reservation> findByClubId(@PathVariable("id") String id) {
+        return reservationService.findByClubId(id);
     }
 
     /**
