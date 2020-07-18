@@ -85,6 +85,6 @@ public interface RelationsClient {
 
     @DeleteMapping("/userreservations/reservation/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUserReservationGroup(@PathVariable("id") String uuidReservation);
+    public void deleteUserReservationReservation(@PathVariable("id") String uuidReservation);
 
 }

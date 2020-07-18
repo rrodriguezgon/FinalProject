@@ -1,4 +1,4 @@
-package com.ironhack.PadelFriendsService.model.Entity;
+package com.ironhack.PadelFriendsService.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ironhack.PadelFriendsService.enums.StatusReservation;
@@ -6,9 +6,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
-public class Reservation {
-    private String id;
+public class CreateReservationDto {
+
     private String clubId;
     private BigDecimal amount;
 
@@ -17,23 +18,20 @@ public class Reservation {
     private LocalDateTime date;
     private Boolean isPrivate;
     private StatusReservation status;
+    private List<String> users;
+    private List<String> groups;
 
-    public Reservation(){}
+    public CreateReservationDto(){}
 
-    public Reservation(String clubId, BigDecimal amount, LocalDateTime date, Boolean isPrivate, StatusReservation status) {
+    public CreateReservationDto(String clubId, BigDecimal amount, LocalDateTime date, Boolean isPrivate,
+                                StatusReservation status, List<String> users, List<String> groups) {
         this.clubId = clubId;
         this.amount = amount;
         this.date = date;
         this.isPrivate = isPrivate;
         this.status = status;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+        this.users = users;
+        this.groups = groups;
     }
 
     public String getClubId() {
@@ -74,5 +72,21 @@ public class Reservation {
 
     public void setStatus(StatusReservation status) {
         this.status = status;
+    }
+
+    public List<String> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<String> users) {
+        this.users = users;
+    }
+
+    public List<String> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<String> groups) {
+        this.groups = groups;
     }
 }

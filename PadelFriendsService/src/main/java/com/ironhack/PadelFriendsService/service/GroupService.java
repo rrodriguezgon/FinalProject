@@ -41,7 +41,7 @@ public class GroupService {
         List<UserGroup> userGroupList = relationsClient.findByUserGroupIDUuidGroup(uuidGroup);
 
         for (GroupReservation relationResevation : groupReservationList){
-            Reservation reservation = reservationClient.findById(relationResevation.getUuidReservation());
+            Reservation reservation = reservationClient.findById(relationResevation.getGroupReservationID().getUuidReservation());
 
             reservationList.add(reservation);
         }
