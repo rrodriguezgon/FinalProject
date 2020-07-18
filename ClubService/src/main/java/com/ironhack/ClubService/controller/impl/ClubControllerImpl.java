@@ -1,6 +1,6 @@
 package com.ironhack.ClubService.controller.impl;
 
-import com.ironhack.ClubService.controller.interfaces.ClubController;
+import com.ironhack.ClubService.controller.interfaces.IClubController;
 import com.ironhack.ClubService.model.Club;
 import com.ironhack.ClubService.service.ClubService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-public class ClubControllerImpl implements ClubController {
+public class ClubControllerImpl implements IClubController {
 
     @Autowired
     private ClubService clubService;

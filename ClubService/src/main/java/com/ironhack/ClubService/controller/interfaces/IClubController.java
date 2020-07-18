@@ -4,7 +4,7 @@ import com.ironhack.ClubService.model.Club;
 
 import java.util.List;
 
-public interface ClubController {
+public interface IClubController {
 
     /**
      *
