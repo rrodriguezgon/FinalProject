@@ -1,40 +1,31 @@
 package com.ironhack.RelationsService.model;
 
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.IdClass;
 
 @Entity
-@IdClass(UserGroupID.class)
 public class UserGroup {
 
-    private String uuidUser;
-    private String uuidGroup;
+    @EmbeddedId
+    private UserGroupID userGroupID;
+
     private Boolean property;
     private Boolean admin;
 
     public UserGroup(){}
 
-    public UserGroup(String uuidUser, String uuidGroup, Boolean property, Boolean admin) {
-        this.uuidUser = uuidUser;
-        this.uuidGroup = uuidGroup;
+    public UserGroup(UserGroupID userGroupID, Boolean property, Boolean admin) {
+        this.userGroupID = userGroupID;
         this.property = property;
         this.admin = admin;
     }
 
-    public String getUuidUser() {
-        return uuidUser;
+    public UserGroupID getUserGroupID() {
+        return userGroupID;
     }
 
-    public void setUuidUser(String uuidUser) {
-        this.uuidUser = uuidUser;
-    }
-
-    public String getUuidGroup() {
-        return uuidGroup;
-    }
-
-    public void setUuidGroup(String uuidGroup) {
-        this.uuidGroup = uuidGroup;
+    public void setUserGroupID(UserGroupID userGroupID) {
+        this.userGroupID = userGroupID;
     }
 
     public Boolean getProperty() {
