@@ -1,7 +1,8 @@
 package com.ironhack.PadelFriendsService.service;
 
-import com.ironhack.PadelFriendsService.client.*;
+import com.ironhack.PadelFriendsService.FallbackFunctions.ReservationServiceFallbackFunctions;
 import com.ironhack.PadelFriendsService.dto.CreateReservationDto;
+import com.ironhack.PadelFriendsService.exceptions.DataNotFoundException;
 import com.ironhack.PadelFriendsService.model.Entity.*;
 import com.ironhack.PadelFriendsService.model.ViewModel.ReservationViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,43 +15,44 @@ import java.util.List;
 public class ReservationService {
 
     @Autowired
-    private ReservationClient reservationClient;
-
-    @Autowired
-    private ClubClient clubClient;
-
-    @Autowired
-    private UserClient userClient;
-
-    @Autowired
-    private GroupClient groupClient;
-
-    @Autowired
-    private RelationsClient relationsClient;
+    private ReservationServiceFallbackFunctions serviceFallbackFunctions;
 
     public List<Reservation> findAll(){
-        return reservationClient.findAll();
+        return serviceFallbackFunctions.findAll();
     }
 
     public ReservationViewModel findById(String id){
-        Reservation reservation = reservationClient.findById(id);
-        Club club = clubClient.findById(reservation.getClubId());
+        Reservation reservation = serviceFallbackFunctions.findReservationById(id);
+        if (reservation == null){
+            throw new DataNotFoundException("This uuid Reservation not exists.");
+        }
+
+        Club club = serviceFallbackFunctions.findClubById(reservation.getClubId());
+
+        if (club == null){
+            throw new DataNotFoundException("This uuid Club not exists.");
+        }
+
         List<User> userList = new ArrayList<>();
         List<Group> groupList = new ArrayList<>();
 
-        List<UserReservation> userReservationList =  relationsClient.findByUserReservationIDUuidReservation(id);
-        List<GroupReservation> groupReservationList = relationsClient.findByGroupReservationIDUuidReservation(id);
+        List<UserReservation> userReservationList =  serviceFallbackFunctions.findByUserReservationIDUuidReservation(id);
+        List<GroupReservation> groupReservationList = serviceFallbackFunctions.findByGroupReservationIDUuidReservation(id);
 
         for (UserReservation userReservation : userReservationList){
-            User user = userClient.findById(userReservation.getUserReservationID().getUuidUser());
+            User user = serviceFallbackFunctions.findUserById(userReservation.getUserReservationID().getUuidUser());
 
-            userList.add(user);
+            if (user != null){
+                userList.add(user);
+            }
         }
 
         for (GroupReservation groupReservation : groupReservationList){
-            Group group = groupClient.findById(groupReservation.getGroupReservationID().getUuidGroup());
+            Group group = serviceFallbackFunctions.findGroupById(groupReservation.getGroupReservationID().getUuidGroup());
 
-            groupList.add(group);
+            if (group != null){
+                groupList.add(group);
+            }
         }
 
         return new ReservationViewModel(reservation.getId(), club, reservation.getAmount(),
@@ -62,77 +64,99 @@ public class ReservationService {
                 createReservationDto.getDate(), createReservationDto.getPrivate(),createReservationDto.getStatus());
         List<User> userList = new ArrayList<>();
         List<Group> groupList = new ArrayList<>();
+        Club club = serviceFallbackFunctions.findClubById(createReservationDto.getClubId());
 
-        Reservation reservationCreated = reservationClient.create(reservation);
-        Club club = clubClient.findById(createReservationDto.getClubId());
+        if (club == null){
+            throw new DataNotFoundException("This uuid Club not exists.");
+        }
+
+        Reservation reservationCreated = serviceFallbackFunctions.createReservation(reservation);
 
         if ( createReservationDto.getUsers() != null && createReservationDto.getUsers().size() != 0){
 
             for (String userId : createReservationDto.getUsers()){
-                User user = userClient.findById(userId);
+                User user = serviceFallbackFunctions.findUserById(userId);
+
+                if (user == null){
+                    throw new DataNotFoundException("This user does not exist so it cannot be added to the reservation.");
+                }
 
                 userList.add(user);
 
                 UserReservation userReservation = new UserReservation(new UserReservationID(reservationCreated.getId(),userId));
 
-                relationsClient.create(userReservation);
+                serviceFallbackFunctions.createUserReservation(userReservation);
             }
         }
 
         if ( createReservationDto.getGroups() != null && createReservationDto.getGroups().size() != 0){
 
             for (String groupId : createReservationDto.getGroups()){
-                Group group = groupClient.findById(groupId);
+                Group group = serviceFallbackFunctions.findGroupById(groupId);
+
+                if (group == null){
+                    throw new DataNotFoundException("This group does not exist so it cannot be added to the reservation.");
+                }
 
                 groupList.add(group);
 
-                GroupReservation groupReservation = new GroupReservation(new GroupReservationID(reservationCreated.getId(),groupId));
+                GroupReservation groupReservation = new GroupReservation(new GroupReservationID(groupId,reservationCreated.getId()));
 
-                relationsClient.createGroupReservation(groupReservation);
+                serviceFallbackFunctions.createGroupReservation(groupReservation);
             }
         }
 
-        return new ReservationViewModel(reservation.getId(), club, reservation.getAmount(),
+        return new ReservationViewModel(reservationCreated.getId(), club, reservation.getAmount(),
                 reservation.getDate(), reservation.getPrivate(),reservation.getStatus(), userList, groupList);
     }
 
     public void update(String id, CreateReservationDto createReservationDto){
-        Reservation reservationFound = reservationClient.findById(id);
+        Reservation reservationFound = serviceFallbackFunctions.findReservationById(id);
         reservationFound.setAmount(createReservationDto.getAmount());
         reservationFound.setDate(createReservationDto.getDate());
         reservationFound.setPrivate(createReservationDto.getPrivate());
         reservationFound.setStatus(createReservationDto.getStatus());
 
-        relationsClient.deleteGroupReservationReservation(id);
-        relationsClient.deleteUserReservationReservation(id);
+        serviceFallbackFunctions.deleteGroupReservationReservation(id);
+        serviceFallbackFunctions.deleteUserReservationReservation(id);
 
         if ( createReservationDto.getUsers() != null && createReservationDto.getUsers().size() != 0){
 
             for (String userId : createReservationDto.getUsers()){
-                User user = userClient.findById(userId);
+                User user = serviceFallbackFunctions.findUserById(userId);
 
-                UserReservation userReservation = new UserReservation(new UserReservationID(id,userId));
+                if (user != null){
 
-                relationsClient.create(userReservation);
+                    UserReservation userReservation = new UserReservation(new UserReservationID(id,userId));
+
+                    serviceFallbackFunctions.createUserReservation(userReservation);
+                } else {
+                    // LOG throw new DataNotFoundException("This user does not exist so it cannot be added to the reservation.");
+                }
             }
         }
 
         if ( createReservationDto.getGroups() != null && createReservationDto.getGroups().size() != 0){
 
             for (String groupId : createReservationDto.getGroups()){
-                Group group = groupClient.findById(groupId);
+                Group group = serviceFallbackFunctions.findGroupById(groupId);
 
-                GroupReservation groupReservation = new GroupReservation(new GroupReservationID(id,groupId));
+                if (group != null){
 
-                relationsClient.createGroupReservation(groupReservation);
+                    GroupReservation groupReservation = new GroupReservation(new GroupReservationID(groupId,id));
+
+                    serviceFallbackFunctions.createGroupReservation(groupReservation);
+                } else {
+                   // LOG throw new DataNotFoundException("This group does not exist so it cannot be added to the reservation.");
+                }
             }
         }
     }
 
     public void delete(String id){
-        reservationClient.delete(id);
+        serviceFallbackFunctions.deleteReservation(id);
 
-        relationsClient.deleteGroupReservationReservation(id);
-        relationsClient.deleteUserReservationReservation(id);
+        serviceFallbackFunctions.deleteGroupReservationReservation(id);
+        serviceFallbackFunctions.deleteUserReservationReservation(id);
     }
 }

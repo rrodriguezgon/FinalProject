@@ -1,7 +1,7 @@
 package com.ironhack.PadelFriendsService.service;
 
-import com.ironhack.PadelFriendsService.client.ClubClient;
-import com.ironhack.PadelFriendsService.client.ReservationClient;
+import com.ironhack.PadelFriendsService.FallbackFunctions.ClubServiceFallbackFunctions;
+import com.ironhack.PadelFriendsService.exceptions.DataNotFoundException;
 import com.ironhack.PadelFriendsService.model.Entity.Club;
 import com.ironhack.PadelFriendsService.model.Entity.Reservation;
 import com.ironhack.PadelFriendsService.model.ViewModel.ClubViewModel;
@@ -13,26 +13,29 @@ import java.util.List;
 
 @Service
 public class ClubService {
-    @Autowired
-    private ClubClient clubClient;
 
     @Autowired
-    private ReservationClient reservationClient;
+    private ClubServiceFallbackFunctions fallbackFunctions;
 
     public List<Club> findAll(){
-        return clubClient.findAll();
+        return fallbackFunctions.findAll();
     }
 
     public ClubViewModel findById(String uuidClub){
-        Club club = clubClient.findById(uuidClub);
-        List<Reservation> reservationList = reservationClient.findByClubId(uuidClub);
+        Club club = fallbackFunctions.findClubByClubId(uuidClub);
+
+        if (club == null){
+            throw new DataNotFoundException("This uuid Club not exists.");
+        }
+
+        List<Reservation> reservationList = fallbackFunctions.findReservationByClubId(uuidClub);
 
         return new ClubViewModel(club.getId(),club.getUbication(),
                 club.getName(),club.getNumberCourts(),reservationList);
     }
 
     public ClubViewModel create(Club club){
-        Club clubCreated = clubClient.create(club);
+        Club clubCreated = fallbackFunctions.create(club);
         List<Reservation> reservationList = new ArrayList<>();
 
         return new ClubViewModel(clubCreated.getId(),clubCreated.getUbication(),
@@ -40,11 +43,22 @@ public class ClubService {
     }
 
     public void update(String uuidClub, Club clubUpdated){
-        clubClient.update(uuidClub,clubUpdated);
+        Club club = fallbackFunctions.findClubByClubId(uuidClub);
+
+        if (club == null){
+            throw new DataNotFoundException("This uuid Club not exists.");
+        }
+
+        fallbackFunctions.update(uuidClub,clubUpdated);
     }
 
     public void delete(String uuidClub){
+        Club club = fallbackFunctions.findClubByClubId(uuidClub);
 
-        clubClient.delete(uuidClub);
+        if (club == null){
+            throw new DataNotFoundException("This uuid Club not exists.");
+        }
+
+        fallbackFunctions.delete(uuidClub);
     }
 }

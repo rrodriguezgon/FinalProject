@@ -1,16 +1,12 @@
 package com.ironhack.PadelFriendsService.service;
 
-import com.ironhack.PadelFriendsService.client.GroupClient;
-import com.ironhack.PadelFriendsService.client.RelationsClient;
-import com.ironhack.PadelFriendsService.client.ReservationClient;
-import com.ironhack.PadelFriendsService.client.UserClient;
+import com.ironhack.PadelFriendsService.FallbackFunctions.GroupServiceFallbackFunctions;
 import com.ironhack.PadelFriendsService.dto.CreateGroupDto;
 import com.ironhack.PadelFriendsService.model.Entity.*;
 import com.ironhack.PadelFriendsService.model.ViewModel.GroupViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,32 +14,25 @@ import java.util.List;
 public class GroupService {
 
     @Autowired
-    private GroupClient groupClient;
-
-    @Autowired
-    private RelationsClient relationsClient;
-
-    @Autowired
-    private UserClient userClient;
-
-    @Autowired
-    private ReservationClient reservationClient;
+    private GroupServiceFallbackFunctions serviceFallbackFunctions;
 
     public List<Group> findAll(){
-        return groupClient.findAll();
+        return serviceFallbackFunctions.findAllGroups();
     }
 
     public GroupViewModel findById(String uuidGroup){
-        Group group = groupClient.findById(uuidGroup);
+        Group group = serviceFallbackFunctions.findByIdGroup(uuidGroup);
         List<Reservation> reservationList = new ArrayList<>();
-        List<User> userList = new ArrayList<>();
-        List<GroupReservation> groupReservationList = relationsClient.findByGroupReservationIDUuidGroup(uuidGroup);
-        List<UserGroup> userGroupList = relationsClient.findByUserGroupIDUuidGroup(uuidGroup);
+
+        List<GroupReservation> groupReservationList = serviceFallbackFunctions.findByGroupReservationIDUuidGroup(uuidGroup);
+        List<UserGroup> userGroupList = serviceFallbackFunctions.findByUserGroupIDUuidGroup(uuidGroup);
 
         for (GroupReservation relationResevation : groupReservationList){
-            Reservation reservation = reservationClient.findById(relationResevation.getGroupReservationID().getUuidReservation());
+            Reservation reservation = serviceFallbackFunctions.findByIdReservation(relationResevation.getGroupReservationID().getUuidReservation());
 
-            reservationList.add(reservation);
+            if (reservation != null){
+                reservationList.add(reservation);
+            }
         }
 
         return new GroupViewModel(group.getId(),group.getName(),group.getDescription(),
@@ -51,18 +40,18 @@ public class GroupService {
     }
 
     public GroupViewModel create(CreateGroupDto createGroupDto){
-        Group group = new Group(createGroupDto.getName(),createGroupDto.getDescription(),createGroupDto.getImage(), LocalDateTime.now());
+        Group group = new Group(createGroupDto.getName(),createGroupDto.getDescription(),createGroupDto.getImage());
         List<Reservation> reservationList = new ArrayList<>();
         List<UserGroup> userGroupList = new ArrayList<>();
 
-        Group groupCreated = groupClient.create(group);
+        Group groupCreated = serviceFallbackFunctions.createGroup(group);
 
         if ( createGroupDto.getUserGroupList() != null && createGroupDto.getUserGroupList().size() != 0){
             userGroupList = createGroupDto.getUserGroupList();
 
             createGroupDto.getUserGroupList().forEach(userGroup -> {
                 userGroup.getUserGroupID().setUuidGroup(groupCreated.getId());
-                relationsClient.createUserGroup(userGroup);
+                serviceFallbackFunctions.createUserGroup(userGroup);
             });
         }
 
@@ -71,22 +60,20 @@ public class GroupService {
     }
 
     public void update(String uuidGroup, CreateGroupDto createGroupDto) {
-        Group groupFound = groupClient.findById(uuidGroup);
-        groupFound.setName(createGroupDto.getName());
-        groupFound.setDescription(createGroupDto.getDescription());
-        groupFound.setImage(createGroupDto.getImage());
+        serviceFallbackFunctions.updateGroup(uuidGroup, createGroupDto);
 
-        relationsClient.deleteUserGroupGroup(uuidGroup);
+        serviceFallbackFunctions.deleteUserGroupGroup(uuidGroup);
 
         if (createGroupDto.getUserGroupList().size() != 0){
             createGroupDto.getUserGroupList().forEach(userGroup -> {
-                relationsClient.createUserGroup(userGroup);
+                userGroup.getUserGroupID().setUuidGroup(uuidGroup);
+                serviceFallbackFunctions.createUserGroup(userGroup);
             });
         }
     }
 
     public void delete(String uuidGroup){
-        groupClient.delete(uuidGroup);
-        relationsClient.deleteUserGroupGroup(uuidGroup);
+        serviceFallbackFunctions.deleteGroup(uuidGroup);
+        serviceFallbackFunctions.deleteUserGroupGroup(uuidGroup);
     }
 }
