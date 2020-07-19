@@ -59,7 +59,7 @@ public class GroupService {
                 groupCreated.getImage(),groupCreated.getCreatedAt(), userGroupList,reservationList);
     }
 
-    public void update(String uuidGroup, CreateGroupDto createGroupDto) {
+    public void update(User user, String uuidGroup, CreateGroupDto createGroupDto) {
         serviceFallbackFunctions.updateGroup(uuidGroup, createGroupDto);
 
         serviceFallbackFunctions.deleteUserGroupGroup(uuidGroup);

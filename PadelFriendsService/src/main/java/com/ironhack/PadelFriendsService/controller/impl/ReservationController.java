@@ -3,10 +3,12 @@ package com.ironhack.PadelFriendsService.controller.impl;
 import com.ironhack.PadelFriendsService.controller.interfaces.IReservationController;
 import com.ironhack.PadelFriendsService.dto.CreateReservationDto;
 import com.ironhack.PadelFriendsService.model.Entity.Reservation;
+import com.ironhack.PadelFriendsService.model.Entity.User;
 import com.ironhack.PadelFriendsService.model.ViewModel.ReservationViewModel;
 import com.ironhack.PadelFriendsService.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -38,8 +40,8 @@ public class ReservationController implements IReservationController {
 
     @PutMapping("/reservations/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@PathVariable("id") String id,@RequestBody @Valid CreateReservationDto createReservationDto) {
-        reservationService.update(id, createReservationDto);
+    public void update(@AuthenticationPrincipal User user, @PathVariable("id") String id, @RequestBody @Valid CreateReservationDto createReservationDto) {
+        reservationService.update(user, id, createReservationDto);
     }
 
     @DeleteMapping("/reservations/{id}")

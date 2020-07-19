@@ -110,7 +110,7 @@ public class ReservationService {
                 reservation.getDate(), reservation.getPrivate(),reservation.getStatus(), userList, groupList);
     }
 
-    public void update(String id, CreateReservationDto createReservationDto){
+    public void update(User userlogin ,String id, CreateReservationDto createReservationDto){
         Reservation reservationFound = serviceFallbackFunctions.findReservationById(id);
         reservationFound.setAmount(createReservationDto.getAmount());
         reservationFound.setDate(createReservationDto.getDate());

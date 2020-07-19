@@ -3,10 +3,12 @@ package com.ironhack.PadelFriendsService.controller.impl;
 import com.ironhack.PadelFriendsService.controller.interfaces.IGroupController;
 import com.ironhack.PadelFriendsService.dto.CreateGroupDto;
 import com.ironhack.PadelFriendsService.model.Entity.Group;
+import com.ironhack.PadelFriendsService.model.Entity.User;
 import com.ironhack.PadelFriendsService.model.ViewModel.GroupViewModel;
 import com.ironhack.PadelFriendsService.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -38,8 +40,8 @@ public class GroupController implements IGroupController {
 
     @PutMapping("/groups/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable("id") String id,@RequestBody @Valid CreateGroupDto createGroupDto) {
-        groupService.update(id,createGroupDto);
+    public void update(@AuthenticationPrincipal User user, @PathVariable("id") String id, @RequestBody @Valid CreateGroupDto createGroupDto) {
+        groupService.update(user, id,createGroupDto);
     }
 
     @DeleteMapping("/groups/{id}")
