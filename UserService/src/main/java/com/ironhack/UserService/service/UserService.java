@@ -54,6 +54,22 @@ public class UserService {
 
     /**
      *
+     * @param username
+     * @return
+     */
+    public Optional<User> findByUsername(String username){
+        try {
+            Optional<User> userOptional = userRepository.findByUsername(username);
+
+            return userOptional;
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            throw ex;
+        }
+    }
+
+    /**
+     *
      * @param user
      * @return
      */

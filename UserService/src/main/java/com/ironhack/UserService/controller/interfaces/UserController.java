@@ -3,6 +3,7 @@ package com.ironhack.UserService.controller.interfaces;
 import com.ironhack.UserService.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserController {
 
@@ -18,6 +19,13 @@ public interface UserController {
      * @return
      */
     public User findById(String id);
+
+    /**
+     *
+     * @param username
+     * @return
+     */
+    public Optional<User> findByUsername(String username);
 
     /**
      *
