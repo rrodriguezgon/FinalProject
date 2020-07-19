@@ -1,15 +1,16 @@
 package com.ironhack.ReservationService.service;
 
 import com.ironhack.ReservationService.enums.StatusReservation;
-import com.ironhack.ReservationService.exceptions.DataNotFoundException;
 import com.ironhack.ReservationService.model.Reservation;
 import com.ironhack.ReservationService.repository.ReservationRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -17,6 +18,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class ReservationService {
+
+    private static final Logger LOGGER = LogManager.getLogger(ReservationService.class);
 
     @Autowired
     private ReservationRepository reservationRepository;
@@ -26,7 +29,12 @@ public class ReservationService {
      * @return
      */
     public List<Reservation> findAll(){
-        return reservationRepository.findAll();
+        try {
+            return reservationRepository.findAll();
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            throw ex;
+        }
     }
 
     /**
@@ -35,7 +43,18 @@ public class ReservationService {
      * @return
      */
     public Reservation findById(String id) {
-        return reservationRepository.findById(id).orElseThrow(() -> new DataNotFoundException("This id Reservation not found."));
+        try {
+            Optional<Reservation> reservationOptional = reservationRepository.findById(id);
+
+            if ( reservationOptional.isPresent()){
+                return reservationOptional.get();
+            } else {
+                return null;
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            throw ex;
+        }
     }
 
     /**
@@ -44,7 +63,12 @@ public class ReservationService {
      * @return
      */
     public List<Reservation> findByClubId(String id) {
-        return reservationRepository.findByClubId(id);
+        try {
+            return reservationRepository.findByClubId(id);
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            throw ex;
+        }
     }
 
     /**
@@ -53,20 +77,34 @@ public class ReservationService {
      * @return
      */
     public Reservation create(Reservation reservation){
-        return reservationRepository.save(reservation);
+        try {
+            return reservationRepository.save(reservation);
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            throw ex;
+        }
     }
 
     /**
      *
      * @param id
-     * @param reservation
+     * @param reservationUpdated
      */
-    public void update(String id, Reservation reservation){
-        Reservation reservationFound = findById(id);
+    public void update(String id, Reservation reservationUpdated){
+        try {
+            Optional<Reservation> reservationOptional = reservationRepository.findById(id);
 
-        reservation.setId(reservationFound.getId());
+            if (reservationOptional.isPresent()) {
+                Reservation reservation = reservationOptional.get();
 
-        reservationRepository.save(reservation);
+                reservationUpdated.setId(reservation.getId());
+
+                reservationRepository.save(reservationUpdated);
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            throw ex;
+        }
     }
 
     /**
@@ -74,9 +112,17 @@ public class ReservationService {
      * @param id
      */
     public void delete(String id){
-        Reservation reservationFound = findById(id);
+        try {
+            Optional<Reservation> reservationOptional = reservationRepository.findById(id);
 
-        reservationRepository.delete(reservationFound);
+            if (reservationOptional.isPresent()) {
+
+                reservationRepository.delete(reservationOptional.get());
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            throw ex;
+        }
     }
 
     /**
