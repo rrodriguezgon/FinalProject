@@ -1,17 +1,21 @@
 package com.ironhack.GroupService.service;
 
 import com.ironhack.GroupService.dto.GroupUpdateDto;
-import com.ironhack.GroupService.exceptions.DataNotFoundException;
 import com.ironhack.GroupService.model.Group;
 import com.ironhack.GroupService.repository.GroupRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GroupService {
+
+    private static final Logger LOGGER = LogManager.getLogger(GroupService.class);
 
     @Autowired
     private GroupRepository groupRepository;
@@ -21,7 +25,12 @@ public class GroupService {
      * @return
      */
     public List<Group> findAll(){
-        return groupRepository.findAll();
+        try {
+            return groupRepository.findAll();
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            throw ex;
+        }
     }
 
     /**
@@ -30,7 +39,18 @@ public class GroupService {
      * @return
      */
     public Group findById(String id){
-        return groupRepository.findById(id).orElseThrow(() -> new DataNotFoundException("This id Group not found."));
+        try {
+            Optional<Group> groupOptional = groupRepository.findById(id);
+
+            if (groupOptional.isPresent()){
+                return groupOptional.get();
+            } else {
+                return null;
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            throw ex;
+        }
     }
 
     /**
@@ -39,8 +59,13 @@ public class GroupService {
      * @return
      */
     public Group create(Group group) {
-        group.setCreatedAt(LocalDateTime.now());
-        return groupRepository.save(group);
+        try {
+            group.setCreatedAt(LocalDateTime.now());
+            return groupRepository.save(group);
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            throw ex;
+        }
     }
 
     /**
@@ -49,13 +74,22 @@ public class GroupService {
      * @param group
      */
     public void update(String id, GroupUpdateDto group){
-        Group groupFound = findById(id);
+        try {
+            Optional<Group> groupOptional = groupRepository.findById(id);
 
-        groupFound.setName(group.getName());
-        groupFound.setDescription(group.getDescription());
-        groupFound.setImage(group.getImage());
+            if (groupOptional.isPresent()){
+                Group groupFound = groupOptional.get();
 
-        groupRepository.save(groupFound);
+                groupFound.setName(group.getName());
+                groupFound.setDescription(group.getDescription());
+                groupFound.setImage(group.getImage());
+
+                groupRepository.save(groupFound);
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            throw ex;
+        }
     }
 
     /**
@@ -63,8 +97,15 @@ public class GroupService {
      * @param id
      */
     public void delete(String id){
-        Group groupFound = findById(id);
+        try {
+            Optional<Group> groupOptional = groupRepository.findById(id);
 
-        groupRepository.delete(groupFound);
+            if (groupOptional.isPresent()) {
+                groupRepository.delete(groupOptional.get());
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            throw ex;
+        }
     }
 }
