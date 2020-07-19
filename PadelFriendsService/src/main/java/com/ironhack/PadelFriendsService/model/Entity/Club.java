@@ -1,12 +1,17 @@
 package com.ironhack.PadelFriendsService.model.Entity;
 
+import javax.validation.constraints.NotNull;
+
 public class Club {
     private String id;
 
+    @NotNull
     private String ubication;
 
+    @NotNull
     private String name;
 
+    @NotNull
     private Integer numberCourts;
 
     public Club(){}

@@ -2,8 +2,11 @@ package com.ironhack.PadelFriendsService.service;
 
 import com.ironhack.PadelFriendsService.FallbackFunctions.GroupServiceFallbackFunctions;
 import com.ironhack.PadelFriendsService.dto.CreateGroupDto;
+import com.ironhack.PadelFriendsService.exceptions.DataNotFoundException;
 import com.ironhack.PadelFriendsService.model.Entity.*;
 import com.ironhack.PadelFriendsService.model.ViewModel.GroupViewModel;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +15,8 @@ import java.util.List;
 
 @Service
 public class GroupService {
+
+    private static final Logger LOGGER = LogManager.getLogger(GroupService.class);
 
     @Autowired
     private GroupServiceFallbackFunctions serviceFallbackFunctions;
@@ -22,6 +27,14 @@ public class GroupService {
 
     public GroupViewModel findById(String uuidGroup){
         Group group = serviceFallbackFunctions.findByIdGroup(uuidGroup);
+
+        if (group == null){
+            DataNotFoundException ex = new DataNotFoundException("This uuid Group not exists. GroupId: " + uuidGroup);
+
+            LOGGER.error(ex);
+            throw ex;
+        }
+
         List<Reservation> reservationList = new ArrayList<>();
 
         List<GroupReservation> groupReservationList = serviceFallbackFunctions.findByGroupReservationIDUuidGroup(uuidGroup);
@@ -32,6 +45,10 @@ public class GroupService {
 
             if (reservation != null){
                 reservationList.add(reservation);
+            }  else {
+                DataNotFoundException ex = new DataNotFoundException("This Reservation does not exist so it cannot be added to the reservation. ReservationId:" + relationResevation.getGroupReservationID().getUuidReservation());
+
+                LOGGER.warn(ex);
             }
         }
 
@@ -44,7 +61,7 @@ public class GroupService {
         List<Reservation> reservationList = new ArrayList<>();
         List<UserGroup> userGroupList = new ArrayList<>();
 
-        Group groupCreated = serviceFallbackFunctions.createGroup(group);
+        Group groupCreated = serviceFallbackFunctions.createGroup(createGroupDto);
 
         if ( createGroupDto.getUserGroupList() != null && createGroupDto.getUserGroupList().size() != 0){
             userGroupList = createGroupDto.getUserGroupList();
@@ -60,6 +77,15 @@ public class GroupService {
     }
 
     public void update(User user, String uuidGroup, CreateGroupDto createGroupDto) {
+        Group group = serviceFallbackFunctions.findByIdGroup(uuidGroup);
+
+        if (group == null){
+            DataNotFoundException ex = new DataNotFoundException("This uuid Group not exists. GroupId: " + uuidGroup);
+
+            LOGGER.error(ex);
+            throw ex;
+        }
+
         serviceFallbackFunctions.updateGroup(uuidGroup, createGroupDto);
 
         serviceFallbackFunctions.deleteUserGroupGroup(uuidGroup);
@@ -73,6 +99,15 @@ public class GroupService {
     }
 
     public void delete(String uuidGroup){
+        Group group = serviceFallbackFunctions.findByIdGroup(uuidGroup);
+
+        if (group == null){
+            DataNotFoundException ex = new DataNotFoundException("This uuid Group not exists. GroupId: " + uuidGroup);
+
+            LOGGER.error(ex);
+            throw ex;
+        }
+
         serviceFallbackFunctions.deleteGroup(uuidGroup);
         serviceFallbackFunctions.deleteUserGroupGroup(uuidGroup);
     }

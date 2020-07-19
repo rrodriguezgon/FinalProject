@@ -5,6 +5,8 @@ import com.ironhack.PadelFriendsService.exceptions.DataNotFoundException;
 import com.ironhack.PadelFriendsService.model.Entity.Club;
 import com.ironhack.PadelFriendsService.model.Entity.Reservation;
 import com.ironhack.PadelFriendsService.model.ViewModel.ClubViewModel;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,8 @@ import java.util.List;
 
 @Service
 public class ClubService {
+
+    private static final Logger LOGGER = LogManager.getLogger(ClubService.class);
 
     @Autowired
     private ClubServiceFallbackFunctions fallbackFunctions;
@@ -25,7 +29,10 @@ public class ClubService {
         Club club = fallbackFunctions.findClubByClubId(uuidClub);
 
         if (club == null){
-            throw new DataNotFoundException("This uuid Club not exists.");
+            DataNotFoundException ex = new DataNotFoundException("This uuid Club not exists. ClubId: " + uuidClub);
+
+            LOGGER.error(ex);
+            throw ex;
         }
 
         List<Reservation> reservationList = fallbackFunctions.findReservationByClubId(uuidClub);
@@ -46,7 +53,10 @@ public class ClubService {
         Club club = fallbackFunctions.findClubByClubId(uuidClub);
 
         if (club == null){
-            throw new DataNotFoundException("This uuid Club not exists.");
+            DataNotFoundException ex = new DataNotFoundException("This uuid Club not exists. ClubId: " + uuidClub);
+
+            LOGGER.error(ex);
+            throw ex;
         }
 
         fallbackFunctions.update(uuidClub,clubUpdated);
@@ -56,7 +66,10 @@ public class ClubService {
         Club club = fallbackFunctions.findClubByClubId(uuidClub);
 
         if (club == null){
-            throw new DataNotFoundException("This uuid Club not exists.");
+            DataNotFoundException ex = new DataNotFoundException("This uuid Club not exists. ClubId: " + uuidClub);
+
+            LOGGER.error(ex);
+            throw ex;
         }
 
         fallbackFunctions.delete(uuidClub);

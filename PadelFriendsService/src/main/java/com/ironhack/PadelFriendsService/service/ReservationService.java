@@ -5,6 +5,8 @@ import com.ironhack.PadelFriendsService.dto.CreateReservationDto;
 import com.ironhack.PadelFriendsService.exceptions.DataNotFoundException;
 import com.ironhack.PadelFriendsService.model.Entity.*;
 import com.ironhack.PadelFriendsService.model.ViewModel.ReservationViewModel;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,8 @@ import java.util.List;
 
 @Service
 public class ReservationService {
+
+    private static final Logger LOGGER = LogManager.getLogger(ReservationService.class);
 
     @Autowired
     private ReservationServiceFallbackFunctions serviceFallbackFunctions;
@@ -24,13 +28,19 @@ public class ReservationService {
     public ReservationViewModel findById(String id){
         Reservation reservation = serviceFallbackFunctions.findReservationById(id);
         if (reservation == null){
-            throw new DataNotFoundException("This uuid Reservation not exists.");
+            DataNotFoundException ex = new DataNotFoundException("This uuid Reservation not exists. Parameter: " + id);
+
+            LOGGER.error(ex);
+            throw ex;
         }
 
         Club club = serviceFallbackFunctions.findClubById(reservation.getClubId());
 
         if (club == null){
-            throw new DataNotFoundException("This uuid Club not exists.");
+            DataNotFoundException ex = new DataNotFoundException("This uuid Club not exists. Parameter: " + reservation.getClubId());
+
+            LOGGER.error(ex);
+            throw ex;
         }
 
         List<User> userList = new ArrayList<>();
@@ -67,7 +77,10 @@ public class ReservationService {
         Club club = serviceFallbackFunctions.findClubById(createReservationDto.getClubId());
 
         if (club == null){
-            throw new DataNotFoundException("This uuid Club not exists.");
+            DataNotFoundException ex = new DataNotFoundException("This uuid Club not exists. ClubId: " + createReservationDto.getClubId());
+
+            LOGGER.error(ex);
+            throw ex;
         }
 
         Reservation reservationCreated = serviceFallbackFunctions.createReservation(reservation);
@@ -78,7 +91,10 @@ public class ReservationService {
                 User user = serviceFallbackFunctions.findUserById(userId);
 
                 if (user == null){
-                    throw new DataNotFoundException("This user does not exist so it cannot be added to the reservation.");
+                    DataNotFoundException ex = new DataNotFoundException("This user does not exist so it cannot be added to the reservation. UserId: " + userId);
+
+                    LOGGER.error(ex);
+                    throw ex;
                 }
 
                 userList.add(user);
@@ -95,7 +111,10 @@ public class ReservationService {
                 Group group = serviceFallbackFunctions.findGroupById(groupId);
 
                 if (group == null){
-                    throw new DataNotFoundException("This group does not exist so it cannot be added to the reservation.");
+                    DataNotFoundException ex = new DataNotFoundException("This group does not exist so it cannot be added to the reservation. GroupId: " + groupId);
+
+                    LOGGER.error(ex);
+                    throw ex;
                 }
 
                 groupList.add(group);
@@ -112,6 +131,14 @@ public class ReservationService {
 
     public void update(User userlogin ,String id, CreateReservationDto createReservationDto){
         Reservation reservationFound = serviceFallbackFunctions.findReservationById(id);
+
+        if (reservationFound == null){
+            DataNotFoundException ex = new DataNotFoundException("This uuid Reservation not exists. Parameter: " + id);
+
+            LOGGER.error(ex);
+            throw ex;
+        }
+
         reservationFound.setAmount(createReservationDto.getAmount());
         reservationFound.setDate(createReservationDto.getDate());
         reservationFound.setPrivate(createReservationDto.getPrivate());
@@ -131,7 +158,9 @@ public class ReservationService {
 
                     serviceFallbackFunctions.createUserReservation(userReservation);
                 } else {
-                    // LOG throw new DataNotFoundException("This user does not exist so it cannot be added to the reservation.");
+                    DataNotFoundException ex = new DataNotFoundException("This group does not exist so it cannot be added to the reservation. UserId: " + userId);
+
+                    LOGGER.warn(ex);
                 }
             }
         }
@@ -147,13 +176,24 @@ public class ReservationService {
 
                     serviceFallbackFunctions.createGroupReservation(groupReservation);
                 } else {
-                   // LOG throw new DataNotFoundException("This group does not exist so it cannot be added to the reservation.");
+                    DataNotFoundException ex = new DataNotFoundException("This group does not exist so it cannot be added to the reservation. GroupId:" + groupId);
+
+                    LOGGER.warn(ex);
                 }
             }
         }
     }
 
     public void delete(String id){
+        Reservation reservationFound = serviceFallbackFunctions.findReservationById(id);
+
+        if (reservationFound == null){
+            DataNotFoundException ex = new DataNotFoundException("This uuid Reservation not exists. Parameter: " + id);
+
+            LOGGER.error(ex);
+            throw ex;
+        }
+
         serviceFallbackFunctions.deleteReservation(id);
 
         serviceFallbackFunctions.deleteGroupReservationReservation(id);

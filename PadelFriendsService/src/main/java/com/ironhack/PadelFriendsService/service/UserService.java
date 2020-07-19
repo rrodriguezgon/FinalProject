@@ -37,7 +37,9 @@ public class UserService implements UserDetailsService {
         User user = serviceFallbackFunctions.findUserById(id);
 
         if (user == null){
-            throw new DataNotFoundException("This uuid user not exists.");
+            DataNotFoundException ex = new DataNotFoundException("This uuid user not exists. UserId: " + id);
+            LOGGER.error(ex);
+            throw ex;
         }
 
         List<Group> groupList = new ArrayList<>();
@@ -51,6 +53,10 @@ public class UserService implements UserDetailsService {
 
             if (group != null){
                 groupList.add(group);
+            } else {
+                DataNotFoundException ex = new DataNotFoundException("This group does not exist so it cannot be added to the reservation. GroupId:" + userGroup.getUserGroupID().getUuidGroup());
+
+                LOGGER.warn(ex);
             }
         }
 
@@ -59,6 +65,10 @@ public class UserService implements UserDetailsService {
 
             if (reservation != null){
                 reservationList.add(reservation);
+            } else {
+                DataNotFoundException ex = new DataNotFoundException("This group does not exist so it cannot be added to the reservation. GroupId:" + userReservation.getUserReservationID().getUuidReservation());
+
+                LOGGER.warn(ex);
             }
         }
 
@@ -76,10 +86,26 @@ public class UserService implements UserDetailsService {
     }
 
     public void update(String id, User user){
+        User userFound = serviceFallbackFunctions.findUserById(id);
+
+        if (userFound == null){
+            DataNotFoundException ex = new DataNotFoundException("This uuid user not exists. UserId: " + id);
+            LOGGER.error(ex);
+            throw ex;
+        }
+
         serviceFallbackFunctions.updateUser(id, user);
     }
 
     public void delete(String id){
+        User userFound = serviceFallbackFunctions.findUserById(id);
+
+        if (userFound == null){
+            DataNotFoundException ex = new DataNotFoundException("This uuid user not exists. UserId: " + id);
+            LOGGER.error(ex);
+            throw ex;
+        }
+
         serviceFallbackFunctions.deleteUser(id);
 
         serviceFallbackFunctions.deleteUserGroupUser(id);

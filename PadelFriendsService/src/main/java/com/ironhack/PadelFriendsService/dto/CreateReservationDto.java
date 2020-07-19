@@ -4,20 +4,30 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ironhack.PadelFriendsService.enums.StatusReservation;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class CreateReservationDto {
 
+    @NotNull
     private String clubId;
+
+    @NotNull
     private BigDecimal amount;
 
+    @NotNull
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime date;
+
+    @NotNull
     private Boolean isPrivate;
+
+    @NotNull
     private StatusReservation status;
+
     private List<String> users;
     private List<String> groups;
 

@@ -2,7 +2,6 @@ package com.ironhack.PadelFriendsService.client;
 
 import com.ironhack.PadelFriendsService.dto.CreateGroupDto;
 import com.ironhack.PadelFriendsService.model.Entity.Group;
-import com.ironhack.PadelFriendsService.dto.GroupUpdateDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +36,7 @@ public interface GroupClient {
      */
     @PostMapping("/groups")
     @ResponseStatus(HttpStatus.CREATED)
-    public Group create(@RequestBody @Valid Group group);
+    public Group create(@RequestBody @Valid CreateGroupDto group);
 
     /**
      *

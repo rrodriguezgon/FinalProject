@@ -2,13 +2,18 @@ package com.ironhack.PadelFriendsService.dto;
 
 import com.ironhack.PadelFriendsService.model.Entity.UserGroup;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class CreateGroupDto {
+
+    @NotNull
     private String name;
 
+    @NotNull
     private String description;
 
+    @NotNull
     private String image;
 
     private List<UserGroup> userGroupList;

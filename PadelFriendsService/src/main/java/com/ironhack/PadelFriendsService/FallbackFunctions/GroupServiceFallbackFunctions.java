@@ -57,7 +57,7 @@ public class GroupServiceFallbackFunctions {
     }
 
     @HystrixCommand(fallbackMethod = "createGroupFail")
-    public Group createGroup(Group group){
+    public Group createGroup(CreateGroupDto group){
         return groupClient.create(group);
     }
 
