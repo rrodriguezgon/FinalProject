@@ -1,15 +1,19 @@
 package com.ironhack.ClubService.service;
 
-import com.ironhack.ClubService.exceptions.DataNotFoundException;
 import com.ironhack.ClubService.model.Club;
 import com.ironhack.ClubService.repository.ClubRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClubService {
+
+    private static final Logger LOGGER = LogManager.getLogger(ClubService.class);
 
     @Autowired
     private ClubRepository clubRepository;
@@ -19,7 +23,12 @@ public class ClubService {
      * @return
      */
     public List<Club> findAll(){
-        return clubRepository.findAll();
+        try {
+            return clubRepository.findAll();
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            throw ex;
+        }
     }
 
     /**
@@ -28,7 +37,18 @@ public class ClubService {
      * @return
      */
     public Club findById(String id){
-        return clubRepository.findById(id).orElseThrow(() -> new DataNotFoundException("This id Club not found."));
+        try {
+            Optional<Club> clubOptional = clubRepository.findById(id);
+
+            if (clubOptional.isPresent()){
+                return clubOptional.get();
+            } else {
+                return null;
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            throw ex;
+        }
     }
 
     /**
@@ -37,7 +57,12 @@ public class ClubService {
      * @return
      */
     public Club create(Club club) {
-        return clubRepository.save(club);
+        try {
+            return clubRepository.save(club);
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            throw ex;
+        }
     }
 
     /**
@@ -46,11 +71,18 @@ public class ClubService {
      * @param club
      */
     public void update(String id, Club club){
-        Club clubFound = findById(id);
+        try {
+            Optional<Club> clubOptional = clubRepository.findById(id);
 
-        club.setId(clubFound.getId());
+            if (clubOptional.isPresent()){
+                club.setId(clubOptional.get().getId());
 
-        clubRepository.save(club);
+                clubRepository.save(club);
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            throw ex;
+        }
     }
 
     /**
@@ -58,8 +90,15 @@ public class ClubService {
      * @param id
      */
     public void delete(String id){
-        Club clubFound = findById(id);
+        try {
+            Optional<Club> clubOptional = clubRepository.findById(id);
 
-        clubRepository.delete(clubFound);
+            if (clubOptional.isPresent()) {
+                clubRepository.delete(clubOptional.get());
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            throw ex;
+        }
     }
 }
