@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @FeignClient(name = "USER-SERVICE")
 public interface UserClient {
@@ -26,6 +27,15 @@ public interface UserClient {
     @GetMapping("/users/{id}")
     @ResponseStatus(HttpStatus.OK)
     public User findById(@PathVariable("id") String id);
+
+    /**
+     *
+     * @param username
+     * @return
+     */
+    @GetMapping("/users/username/{username}")
+    @ResponseStatus(HttpStatus.OK)
+    public Optional<User> findByUsername(@PathVariable("username") String username);
 
     /**
      *

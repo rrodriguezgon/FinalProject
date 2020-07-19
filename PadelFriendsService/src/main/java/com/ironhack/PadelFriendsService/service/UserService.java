@@ -4,17 +4,30 @@ import com.ironhack.PadelFriendsService.FallbackFunctions.UserServiceFallbackFun
 import com.ironhack.PadelFriendsService.exceptions.DataNotFoundException;
 import com.ironhack.PadelFriendsService.model.Entity.*;
 import com.ironhack.PadelFriendsService.model.ViewModel.UserViewModel;
+import com.ironhack.PadelFriendsService.security.CustomSecurityUser;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
+
+    private static final Logger LOGGER = LogManager.getLogger(UserService.class);
 
     @Autowired
     private UserServiceFallbackFunctions serviceFallbackFunctions;
+
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public List<User> findAll(){
         return serviceFallbackFunctions.findAll();
@@ -53,6 +66,8 @@ public class UserService {
     }
 
     public UserViewModel create(User user){
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         User userCreated = serviceFallbackFunctions.createUser(user);
         List<Group> groupList = new ArrayList<>();
         List<Reservation> reservationList = new ArrayList<>();
@@ -69,5 +84,14 @@ public class UserService {
 
         serviceFallbackFunctions.deleteUserGroupUser(id);
         serviceFallbackFunctions.deleteUserReservationUser(id);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        LOGGER.info("Load user by username " + username);
+        Optional<User> user = serviceFallbackFunctions.findByUsername(username);
+        System.out.println("Usuario buscado");
+        return new CustomSecurityUser(user.orElseThrow(() ->
+                new UsernameNotFoundException("Invalid username/password combination.")));
     }
 }

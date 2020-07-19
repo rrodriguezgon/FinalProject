@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class UserServiceFallbackFunctions {
@@ -32,9 +33,14 @@ public class UserServiceFallbackFunctions {
         return userClient.findAll();
     }
 
-    @HystrixCommand(fallbackMethod = "findAllFail")
+    @HystrixCommand(fallbackMethod = "findUserByIdFail")
     public User findUserById(String uuidUser){
         return userClient.findById(uuidUser);
+    }
+
+    @HystrixCommand(fallbackMethod = "findUserByUsernameFail")
+    public Optional<User> findByUsername(String username){
+        return userClient.findByUsername(username);
     }
 
     @HystrixCommand(fallbackMethod = "findByUserGroupIDUuidUserFail")
@@ -86,7 +92,11 @@ public class UserServiceFallbackFunctions {
         throw new ServiceNotAccessibleException("User Service not Accessible, review logs.");
     }
 
-    public User findAllFail(String uuidUser){
+    public User findUserByIdFail(String uuidUser){
+        throw new ServiceNotAccessibleException("User Service not Accessible, review logs.");
+    }
+
+    public Optional<User> findUserByUsernameFail(String username){
         throw new ServiceNotAccessibleException("User Service not Accessible, review logs.");
     }
 
