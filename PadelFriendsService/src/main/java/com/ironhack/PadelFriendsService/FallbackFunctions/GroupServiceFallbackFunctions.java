@@ -6,10 +6,7 @@ import com.ironhack.PadelFriendsService.client.ReservationClient;
 import com.ironhack.PadelFriendsService.client.UserClient;
 import com.ironhack.PadelFriendsService.dto.CreateGroupDto;
 import com.ironhack.PadelFriendsService.exceptions.ServiceNotAccessibleException;
-import com.ironhack.PadelFriendsService.model.Entity.Group;
-import com.ironhack.PadelFriendsService.model.Entity.GroupReservation;
-import com.ironhack.PadelFriendsService.model.Entity.Reservation;
-import com.ironhack.PadelFriendsService.model.Entity.UserGroup;
+import com.ironhack.PadelFriendsService.model.Entity.*;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -39,6 +36,11 @@ public class GroupServiceFallbackFunctions {
     @HystrixCommand(fallbackMethod = "findByIdGroupFail")
     public Group findByIdGroup(String uuidGroup){
         return groupClient.findById(uuidGroup);
+    }
+
+    @HystrixCommand(fallbackMethod = "findUserByIdFail")
+    public User findUserById(String uuidUser){
+        return userClient.findById(uuidUser);
     }
 
     @HystrixCommand(fallbackMethod = "findByGroupReservationIDUuidGroupFail")
@@ -89,6 +91,10 @@ public class GroupServiceFallbackFunctions {
         throw new ServiceNotAccessibleException("Group Service not Accessible, review logs.");
     }
 
+    public User findUserByIdFail(String uuidUser){
+        throw new ServiceNotAccessibleException("User Service not Accessible, review logs.");
+    }
+
     public List<GroupReservation> findByGroupReservationIDUuidGroupFail(String uuidGroup){
         throw new ServiceNotAccessibleException("Relation Service not Accessible, review logs.");
     }
@@ -101,7 +107,7 @@ public class GroupServiceFallbackFunctions {
         throw new ServiceNotAccessibleException("Relation Service not Accessible, review logs.");
     }
 
-    public Group createGroupFail(Group group){
+    public Group createGroupFail(CreateGroupDto group){
         throw new ServiceNotAccessibleException("Group Service not Accessible, review logs.");
     }
 

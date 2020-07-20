@@ -42,6 +42,11 @@ public class ReservationServiceFallbackFunctions {
         return clubClient.findById(uuidClub);
     }
 
+    @HystrixCommand(fallbackMethod = "updateReservationFail")
+    public void updateReservation(String uuidReservation, Reservation reservationUpdated){
+        reservationClient.update(uuidReservation, reservationUpdated);
+    }
+
     @HystrixCommand(fallbackMethod = "findByUserReservationIDUuidReservationFail")
     public List<UserReservation> findByUserReservationIDUuidReservation(String uuidReservation){
         return relationsClient.findByUserReservationIDUuidReservation(uuidReservation);
@@ -97,6 +102,10 @@ public class ReservationServiceFallbackFunctions {
     }
 
     public Reservation findReservationByIdFail(String uuidReservation){
+        throw new ServiceNotAccessibleException("Reservation Service not Accessible, review logs.");
+    }
+
+    public void updateReservationFail(String uuidReservation, Reservation reservationUpdated){
         throw new ServiceNotAccessibleException("Reservation Service not Accessible, review logs.");
     }
 

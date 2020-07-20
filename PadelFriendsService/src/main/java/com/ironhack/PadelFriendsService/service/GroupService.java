@@ -64,11 +64,18 @@ public class GroupService {
         Group groupCreated = serviceFallbackFunctions.createGroup(createGroupDto);
 
         if ( createGroupDto.getUserGroupList() != null && createGroupDto.getUserGroupList().size() != 0){
-            userGroupList = createGroupDto.getUserGroupList();
-
             createGroupDto.getUserGroupList().forEach(userGroup -> {
-                userGroup.getUserGroupID().setUuidGroup(groupCreated.getId());
-                serviceFallbackFunctions.createUserGroup(userGroup);
+                User userFound = serviceFallbackFunctions.findUserById(userGroup.getUserGroupID().getUuidUser());
+
+                if (userFound != null) {
+                    userGroup.getUserGroupID().setUuidGroup(groupCreated.getId());
+                    serviceFallbackFunctions.createUserGroup(userGroup);
+                    userGroupList.add(userGroup);
+
+                } else {
+                    DataNotFoundException ex = new DataNotFoundException("This user does not exist so it cannot be added to the Group. UserId: " + userGroup.getUserGroupID().getUuidUser());
+                    LOGGER.warn(ex);
+                }
             });
         }
 
@@ -92,8 +99,16 @@ public class GroupService {
 
         if (createGroupDto.getUserGroupList().size() != 0){
             createGroupDto.getUserGroupList().forEach(userGroup -> {
-                userGroup.getUserGroupID().setUuidGroup(uuidGroup);
-                serviceFallbackFunctions.createUserGroup(userGroup);
+                User userFound = serviceFallbackFunctions.findUserById(userGroup.getUserGroupID().getUuidUser());
+
+                if (userFound != null) {
+                    userGroup.getUserGroupID().setUuidGroup(uuidGroup);
+                    serviceFallbackFunctions.createUserGroup(userGroup);
+
+                } else {
+                    DataNotFoundException ex = new DataNotFoundException("This user does not exist so it cannot be added to the Group. UserId: " + userGroup.getUserGroupID().getUuidUser());
+                    LOGGER.warn(ex);
+                }
             });
         }
     }

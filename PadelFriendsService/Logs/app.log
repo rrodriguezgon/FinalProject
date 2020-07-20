@@ -21,3 +21,100 @@
 2020-07-19 20:11:40,813 INFO c.i.P.s.UserService [http-nio-8080-exec-6] Load user by username raquelplayer
 2020-07-19 20:11:48,635 INFO c.i.P.s.UserService [http-nio-8080-exec-7] Load user by username raquel
 2020-07-19 20:32:46,576 INFO c.i.P.s.UserService [http-nio-8080-exec-2] Load user by username raquel
+2020-07-19 21:43:05,003 INFO c.i.P.s.UserService [http-nio-8080-exec-1] Load user by username raquel
+2020-07-19 21:43:14,154 INFO c.i.P.s.UserService [http-nio-8080-exec-7] Load user by username raquelplayer
+2020-07-19 21:43:55,386 INFO c.i.P.s.UserService [http-nio-8080-exec-9] Load user by username raquelplayer
+2020-07-19 21:44:21,651 INFO c.i.P.s.UserService [http-nio-8080-exec-2] Load user by username raquelplayer
+2020-07-19 21:44:33,267 INFO c.i.P.s.UserService [http-nio-8080-exec-6] Load user by username raquel
+2020-07-19 21:45:31,301 INFO c.i.P.s.UserService [http-nio-8080-exec-2] Load user by username raquel
+2020-07-19 21:46:30,253 INFO c.i.P.s.UserService [http-nio-8080-exec-1] Load user by username raquel
+2020-07-19 21:52:12,242 INFO c.i.P.s.UserService [http-nio-8080-exec-1] Load user by username raquel
+2020-07-19 21:52:12,712 WARN c.i.P.s.GroupService [http-nio-8080-exec-1] com.ironhack.PadelFriendsService.exceptions.DataNotFoundException: This user does not exist so it cannot be added to the Group. UserId: f466d360-c3d8-400b-97c8-143cb24f3097
+2020-07-19 21:52:58,015 INFO c.i.P.s.UserService [http-nio-8080-exec-3] Load user by username raquel
+2020-07-19 21:53:20,873 INFO c.i.P.s.UserService [http-nio-8080-exec-4] Load user by username raquel
+2020-07-19 21:53:45,490 INFO c.i.P.s.UserService [http-nio-8080-exec-5] Load user by username raquel
+2020-07-20 09:30:24,631 INFO c.i.P.s.UserService [http-nio-8080-exec-4] Load user by username raquel
+2020-07-20 09:30:43,205 INFO c.i.P.s.UserService [http-nio-8080-exec-2] Load user by username raquelplayer
+2020-07-20 09:30:51,868 INFO c.i.P.s.UserService [http-nio-8080-exec-3] Load user by username raquelplayer
+2020-07-20 09:31:37,894 INFO c.i.P.s.UserService [http-nio-8080-exec-5] Load user by username raquel
+2020-07-20 09:32:35,775 INFO c.i.P.s.UserService [http-nio-8080-exec-9] Load user by username raquelplayer
+2020-07-20 09:33:02,235 INFO c.i.P.s.UserService [http-nio-8080-exec-6] Load user by username raquelplayer
+2020-07-20 09:33:27,313 INFO c.i.P.s.UserService [http-nio-8080-exec-8] Load user by username raquel
+2020-07-20 09:33:53,459 INFO c.i.P.s.UserService [http-nio-8080-exec-7] Load user by username raquel
+2020-07-20 09:34:04,551 INFO c.i.P.s.UserService [http-nio-8080-exec-10] Load user by username raquel
+2020-07-20 09:34:32,661 INFO c.i.P.s.UserService [http-nio-8080-exec-1] Load user by username raquel
+2020-07-20 09:34:37,412 INFO c.i.P.s.UserService [http-nio-8080-exec-4] Load user by username raquel
+2020-07-20 09:34:37,536 ERROR c.i.P.s.ClubService [http-nio-8080-exec-4] com.ironhack.PadelFriendsService.exceptions.DataNotFoundException: This uuid Club not exists. ClubId: f32525e0-de39-4e97-a1bb-377af3d10f26
+2020-07-20 09:35:48,478 INFO c.i.P.s.UserService [http-nio-8080-exec-5] Load user by username raquel
+2020-07-20 09:35:48,827 WARN c.i.P.s.GroupService [http-nio-8080-exec-5] com.ironhack.PadelFriendsService.exceptions.DataNotFoundException: This user does not exist so it cannot be added to the Group. UserId: f466d360-c3d8-400b-97c8-143cb24f3097
+2020-07-20 09:36:20,119 INFO c.i.P.s.UserService [http-nio-8080-exec-9] Load user by username raquel
+2020-07-20 09:37:10,378 INFO c.i.P.s.UserService [http-nio-8080-exec-6] Load user by username raquel
+2020-07-20 09:37:21,569 INFO c.i.P.s.UserService [http-nio-8080-exec-8] Load user by username raquel
+2020-07-20 09:37:39,614 INFO c.i.P.s.UserService [http-nio-8080-exec-7] Load user by username raquel
+2020-07-20 09:38:33,731 INFO c.i.P.s.UserService [http-nio-8080-exec-10] Load user by username raquel
+2020-07-20 09:39:11,506 INFO c.i.P.s.UserService [http-nio-8080-exec-1] Load user by username raquel
+2020-07-20 09:39:11,696 WARN c.i.P.s.GroupService [http-nio-8080-exec-1] com.ironhack.PadelFriendsService.exceptions.DataNotFoundException: This user does not exist so it cannot be added to the Group. UserId: f466d360-c3d8-400b-97c8-143cb24f3097
+2020-07-20 09:39:41,521 INFO c.i.P.s.UserService [http-nio-8080-exec-4] Load user by username raquel
+2020-07-20 09:39:45,118 INFO c.i.P.s.UserService [http-nio-8080-exec-2] Load user by username raquel
+2020-07-20 09:39:45,271 ERROR c.i.P.s.GroupService [http-nio-8080-exec-2] com.ironhack.PadelFriendsService.exceptions.DataNotFoundException: This uuid Group not exists. GroupId: 015b2924-1839-48ef-b1b6-5fd72dfa7f29
+2020-07-20 09:40:19,515 INFO c.i.P.s.UserService [http-nio-8080-exec-3] Load user by username raquel
+2020-07-20 09:41:31,227 INFO c.i.P.s.UserService [http-nio-8080-exec-6] Load user by username raquel
+2020-07-20 09:42:17,272 INFO c.i.P.s.UserService [http-nio-8080-exec-8] Load user by username raquel
+2020-07-20 10:08:33,393 INFO c.i.P.s.UserService [http-nio-8080-exec-1] Load user by username raquel
+2020-07-20 10:08:47,210 INFO c.i.P.s.UserService [http-nio-8080-exec-4] Load user by username raquel
+2020-07-20 10:08:47,355 ERROR c.i.P.s.ReservationService [http-nio-8080-exec-4] com.ironhack.PadelFriendsService.exceptions.DataNotFoundException: This uuid Reservation not exists. Parameter: null
+2020-07-20 10:09:16,674 INFO c.i.P.s.UserService [http-nio-8080-exec-2] Load user by username raquel
+2020-07-20 10:10:05,911 INFO c.i.P.s.UserService [http-nio-8080-exec-3] Load user by username raquel
+2020-07-20 10:10:28,349 INFO c.i.P.s.UserService [http-nio-8080-exec-5] Load user by username raquel
+2020-07-20 10:10:46,506 INFO c.i.P.s.UserService [http-nio-8080-exec-9] Load user by username raquel
+2020-07-20 10:11:04,110 INFO c.i.P.s.UserService [http-nio-8080-exec-6] Load user by username raquel
+2020-07-20 10:11:04,274 WARN c.i.P.s.ReservationService [http-nio-8080-exec-6] com.ironhack.PadelFriendsService.exceptions.DataNotFoundException: This group does not exist so it cannot be added to the reservation. UserId: 67b05f3c-5a0f-447e-a73d-18fd63815a7a
+2020-07-20 10:11:57,936 INFO c.i.P.s.UserService [http-nio-8080-exec-8] Load user by username raquel
+2020-07-20 10:12:08,414 INFO c.i.P.s.UserService [http-nio-8080-exec-7] Load user by username raquel
+2020-07-20 10:12:08,514 ERROR c.i.P.s.ReservationService [http-nio-8080-exec-7] com.ironhack.PadelFriendsService.exceptions.DataNotFoundException: This uuid Reservation not exists. Parameter: 144c3a63-fe69-4a34-824e-4d70a096710f
+2020-07-20 10:19:15,289 INFO c.i.P.s.UserService [http-nio-8080-exec-4] Load user by username raquel
+2020-07-20 10:29:54,592 INFO c.i.P.s.UserService [http-nio-8080-exec-5] Load user by username raquel
+2020-07-20 10:29:55,625 INFO c.i.P.s.UserService [http-nio-8080-exec-9] Load user by username raquel
+2020-07-20 10:29:55,742 ERROR c.i.P.s.ReservationService [http-nio-8080-exec-9] com.ironhack.PadelFriendsService.exceptions.DataNotFoundException: This uuid Reservation not exists. Parameter: 4349e586-8bd3-464b-aca2-3cd17437c982
+2020-07-20 10:34:22,134 INFO c.i.P.s.UserService [http-nio-8080-exec-7] Load user by username raquel
+2020-07-20 10:34:22,247 ERROR c.i.P.s.ReservationService [http-nio-8080-exec-7] com.ironhack.PadelFriendsService.exceptions.DataNotFoundException: This uuid Reservation not exists. Parameter: 4349e586-8bd3-464b-aca2-3cd17437c982
+2020-07-20 10:34:25,266 INFO c.i.P.s.UserService [http-nio-8080-exec-10] Load user by username raquel
+2020-07-20 10:34:51,776 INFO c.i.P.s.UserService [http-nio-8080-exec-1] Load user by username raquel
+2020-07-20 10:34:51,951 WARN c.i.P.s.ReservationService [http-nio-8080-exec-1] com.ironhack.PadelFriendsService.exceptions.DataNotFoundException: This group does not exist so it cannot be added to the reservation. UserId: 67b05f3c-5a0f-447e-a73d-18fd63815a7a
+2020-07-20 10:35:03,201 INFO c.i.P.s.UserService [http-nio-8080-exec-4] Load user by username raquel
+2020-07-20 10:35:11,429 INFO c.i.P.s.UserService [http-nio-8080-exec-2] Load user by username raquel
+2020-07-20 10:35:11,589 WARN c.i.P.s.ReservationService [http-nio-8080-exec-2] com.ironhack.PadelFriendsService.exceptions.DataNotFoundException: This group does not exist so it cannot be added to the reservation. UserId: 67b05f3c-5a0f-447e-a73d-18fd63815a7a
+2020-07-20 10:35:18,038 INFO c.i.P.s.UserService [http-nio-8080-exec-3] Load user by username raquel
+2020-07-20 10:35:26,871 INFO c.i.P.s.UserService [http-nio-8080-exec-5] Load user by username raquel
+2020-07-20 10:35:27,039 WARN c.i.P.s.ReservationService [http-nio-8080-exec-5] com.ironhack.PadelFriendsService.exceptions.DataNotFoundException: This group does not exist so it cannot be added to the reservation. UserId: 67b05f3c-5a0f-447e-a73d-18fd63815a7a
+2020-07-20 10:35:30,247 INFO c.i.P.s.UserService [http-nio-8080-exec-9] Load user by username raquel
+2020-07-20 10:35:49,144 INFO c.i.P.s.UserService [http-nio-8080-exec-6] Load user by username raquel
+2020-07-20 10:35:49,328 WARN c.i.P.s.ReservationService [http-nio-8080-exec-6] com.ironhack.PadelFriendsService.exceptions.DataNotFoundException: This group does not exist so it cannot be added to the reservation. UserId: 67b05f3c-5a0f-447e-a73d-18fd63815a7a
+2020-07-20 10:35:54,887 INFO c.i.P.s.UserService [http-nio-8080-exec-8] Load user by username raquel
+2020-07-20 10:39:00,113 INFO c.i.P.s.UserService [http-nio-8080-exec-2] Load user by username raquel
+2020-07-20 10:39:49,320 INFO c.i.P.s.UserService [http-nio-8080-exec-4] Load user by username raquel
+2020-07-20 10:40:30,206 INFO c.i.P.s.UserService [http-nio-8080-exec-4] Load user by username raquel
+2020-07-20 10:43:22,773 INFO c.i.P.s.UserService [http-nio-8080-exec-2] Load user by username raquel
+2020-07-20 10:43:30,426 INFO c.i.P.s.UserService [http-nio-8080-exec-3] Load user by username raquel
+2020-07-20 10:44:15,427 INFO c.i.P.s.UserService [http-nio-8080-exec-4] Load user by username raquel
+2020-07-20 10:44:21,185 INFO c.i.P.s.UserService [http-nio-8080-exec-5] Load user by username raquel
+2020-07-20 10:44:33,222 INFO c.i.P.s.UserService [http-nio-8080-exec-6] Load user by username raquel
+2020-07-20 10:44:33,428 ERROR c.i.P.s.ReservationService [http-nio-8080-exec-6] com.ironhack.PadelFriendsService.exceptions.DataNotFoundException: This uuid Club not exists. ClubId: e4759226-9953-4703-84cc-52cc3e6b000
+2020-07-20 10:44:49,729 INFO c.i.P.s.UserService [http-nio-8080-exec-7] Load user by username raquelplayer
+2020-07-20 10:45:16,469 INFO c.i.P.s.UserService [http-nio-8080-exec-8] Load user by username raquel
+2020-07-20 10:45:16,720 WARN c.i.P.s.ReservationService [http-nio-8080-exec-8] com.ironhack.PadelFriendsService.exceptions.DataNotFoundException: This group does not exist so it cannot be added to the reservation. UserId: 67b05f3c-5a0f-447e-a73d-18fd63815a7a
+2020-07-20 10:45:20,808 INFO c.i.P.s.UserService [http-nio-8080-exec-9] Load user by username raquel
+2020-07-20 10:45:30,485 INFO c.i.P.s.UserService [http-nio-8080-exec-10] Load user by username raquel
+2020-07-20 10:46:58,696 INFO c.i.P.s.UserService [http-nio-8080-exec-2] Load user by username raquel
+2020-07-20 10:46:59,976 WARN c.i.P.s.ReservationService [http-nio-8080-exec-2] com.ironhack.PadelFriendsService.exceptions.DataNotFoundException: This group does not exist so it cannot be added to the reservation. UserId: 67b05f3c-5a0f-447e-a73d-18fd63815a7a
+2020-07-20 10:47:03,792 INFO c.i.P.s.UserService [http-nio-8080-exec-3] Load user by username raquel
+2020-07-20 10:47:50,039 INFO c.i.P.s.UserService [http-nio-8080-exec-4] Load user by username raquel
+2020-07-20 10:47:54,019 INFO c.i.P.s.UserService [http-nio-8080-exec-5] Load user by username raquel
+2020-07-20 10:48:30,709 WARN c.i.P.s.ReservationService [http-nio-8080-exec-5] com.ironhack.PadelFriendsService.exceptions.DataNotFoundException: This group does not exist so it cannot be added to the reservation. UserId: 67b05f3c-5a0f-447e-a73d-18fd63815a7a
+2020-07-20 11:02:50,815 INFO c.i.P.s.UserService [http-nio-8080-exec-2] Load user by username raquel
+2020-07-20 11:03:01,430 INFO c.i.P.s.UserService [http-nio-8080-exec-3] Load user by username raquelplayer
+2020-07-20 11:03:21,932 INFO c.i.P.s.UserService [http-nio-8080-exec-4] Load user by username raquel
+2020-07-20 11:03:22,257 WARN c.i.P.s.ReservationService [http-nio-8080-exec-4] com.ironhack.PadelFriendsService.exceptions.DataNotFoundException: This group does not exist so it cannot be added to the reservation. UserId: 67b05f3c-5a0f-447e-a73d-18fd63815a7a
+2020-07-20 11:05:36,520 INFO c.i.P.s.UserService [http-nio-8080-exec-5] Load user by username raquel
+2020-07-20 11:05:37,035 WARN c.i.P.s.ReservationService [http-nio-8080-exec-5] com.ironhack.PadelFriendsService.exceptions.DataNotFoundException: This group does not exist so it cannot be added to the reservation. UserId: 67b05f3c-5a0f-447e-a73d-18fd63815a7a
+2020-07-20 11:05:40,885 INFO c.i.P.s.UserService [http-nio-8080-exec-7] Load user by username raquel

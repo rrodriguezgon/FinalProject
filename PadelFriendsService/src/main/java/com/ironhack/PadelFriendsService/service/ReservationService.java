@@ -139,6 +139,16 @@ public class ReservationService {
             throw ex;
         }
 
+        Club club = serviceFallbackFunctions.findClubById(createReservationDto.getClubId());
+
+        if (club == null){
+            DataNotFoundException ex = new DataNotFoundException("This uuid Club not exists. ClubId: " + createReservationDto.getClubId());
+
+            LOGGER.error(ex);
+            throw ex;
+        }
+
+        reservationFound.setClubId(createReservationDto.getClubId());
         reservationFound.setAmount(createReservationDto.getAmount());
         reservationFound.setDate(createReservationDto.getDate());
         reservationFound.setPrivate(createReservationDto.getPrivate());
@@ -182,6 +192,8 @@ public class ReservationService {
                 }
             }
         }
+
+        serviceFallbackFunctions.updateReservation(id,reservationFound);
     }
 
     public void delete(String id){
