@@ -12,7 +12,7 @@ public class Reservation {
     private String clubId;
     private BigDecimal amount;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.)
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime date;
     private Boolean isPrivate;

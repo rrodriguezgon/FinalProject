@@ -20,6 +20,7 @@ import java.util.List;
 
 @Api(tags = "Group Controller")
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class GroupController implements IGroupController {
 
     @Autowired

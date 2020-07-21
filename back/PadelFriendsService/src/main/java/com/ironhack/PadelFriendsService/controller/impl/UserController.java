@@ -1,6 +1,7 @@
 package com.ironhack.PadelFriendsService.controller.impl;
 
 import com.ironhack.PadelFriendsService.controller.interfaces.IUserController;
+import com.ironhack.PadelFriendsService.dto.LoginDto;
 import com.ironhack.PadelFriendsService.model.Entity.Reservation;
 import com.ironhack.PadelFriendsService.model.Entity.User;
 import com.ironhack.PadelFriendsService.model.ViewModel.ClubViewModel;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @Api(tags = "User Controller")
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserController implements IUserController {
 
     @Autowired
@@ -34,10 +36,19 @@ public class UserController implements IUserController {
     @GetMapping("/users/{id}")
     @ApiOperation(value="Get Details User",
             notes = "Display Details User",
-            response = ClubViewModel.class)
+            response = UserViewModel.class)
     @ResponseStatus(HttpStatus.OK)
     public UserViewModel findById(@PathVariable("id") String id) {
         return userService.findById(id);
+    }
+
+    @PostMapping("/users/login")
+    @ApiOperation(value="Login User",
+            notes = "Login User",
+            response = UserViewModel.class)
+    @ResponseStatus(HttpStatus.OK)
+    public UserViewModel login(@RequestBody LoginDto loginDto) {
+        return userService.login(loginDto);
     }
 
     @PostMapping("/users")

@@ -1,0 +1,76 @@
+<app-navbar></app-navbar>
+<div class="container-fluid">
+    <button class="btn btn-success float-right" routerLink="/groups">Return list</button>
+    <h1>Edit Group</h1>
+
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <div class="col-md-12 col-sm-12">
+                <div class="form-group">
+                    <label for="nametxt">Name: </label>
+                    <input type="text" class="form-control" id="nametxt">
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12">
+                <div class="form-group">
+                    <label for="descriptiontxt">Description: </label>
+                    <textarea class="form-control" id="descriptiontxt" rows="3"></textarea>
+                    </div>
+            </div>
+            <div class="col-md-12 col-sm-12">
+                <div class="form-group">
+                    <label for="provincetxt">Province: </label>
+                    <select id="provincetxt" class="form-control">
+                        <option>Default select</option>
+                      </select>
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12">
+                <div class="form-group">
+                    <label for="citytxt">City: </label>
+                    <select id="citytxt" class="form-control">
+                        <option>Default select</option>
+                      </select>
+                </div>
+            </div>  
+        </div>
+        <div class="col-md-6 col-sm-12">
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <div id="BoxListPlayers" style="margin-bottom: 3%;">
+                        <h2>List Players</h2>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label for="namePlayertxt">Name: </label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" id="namePlayertxt">
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-primary">Add</button>
+                            </div>                            
+                        </div>      
+                        <br>                  
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <ul class="list-group">
+                                    <li class="list-group-item">Raquel</li>
+                                    <li class="list-group-item">David</li>
+                                    <li class="list-group-item">Cristian</li>
+                                    <li class="list-group-item">Pepe</li>
+                                </ul>                
+                            </div>                            
+                        </div>                        
+                    </div>  
+                </div>               
+            </div>            
+        </div>        
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="text-center">
+                <button class="btn btn-primary">Create</button>
+            </div>            
+        </div>
+    </div>
+</div>

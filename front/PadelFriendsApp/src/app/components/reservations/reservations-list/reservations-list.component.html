@@ -1,0 +1,102 @@
+<app-navbar></app-navbar>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 col-sm-12">
+            <div class="list-group" style="margin-bottom: 2%;">
+                <a [class.active]="isShowNextMatches" class="list-group-item list-group-item-action" (click) = "showNextMatches()">Next Matches</a>
+                <a [class.active]="isshowNextMatchesGroups" class="list-group-item list-group-item-action" (click) = "showNextMatchesGroups()">Next matches of your groups</a>
+                <a [class.active]="isshowNextPublicMatches" class="list-group-item list-group-item-action" (click) = "showNextPublicMatches()">Upcoming Public Matches</a>                
+            </div>
+
+            <div id="BoxSearch">
+                <div class="card">
+                    <div class="card-body">                        
+                        <div class="form-group">
+                            <label for="SelectProvince">Province</label>
+                            <select class="form-control" id="SelectProvince">
+                              <option>1</option>
+                              <option>2</option>
+                              <option>3</option>
+                              <option>4</option>
+                              <option>5</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="SelectCity">City</label>
+                            <select class="form-control" id="SelectCity">
+                              <option>1</option>
+                              <option>2</option>
+                              <option>3</option>
+                              <option>4</option>
+                              <option>5</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="DateFilter">Date</label>
+                            <input type="text" class="form-control" id="dateFilter" placeholder="02/02/2020 10:00">
+                          </div>
+                          <button class="btn btn-primary">search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-12">                            
+            <button class="btn btn-success float-right" routerLink="/createreservation">New reservation</button>                
+            
+            <div id="BoxNextMatches" *ngIf="isShowNextMatches">   
+                <div class="row">
+                  <div class="card" class="col-md-4 col-sm-12" >
+                    <img src="../../../assets/img/Club1.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">Mad4padel</h5>
+                      <p class="card-text">10/10/2020 10:00</p>
+                      <p class="card-text">Num Jug: 4</p>           
+                      <p class="card-text">Price: 2.50 €</p>
+                      <a routerLink="/reservations/12587952" class="btn btn-primary">Details</a>                                
+                    </div>
+                </div>                      
+                </div>
+            </div>
+            <div id="BoxNextMatchesGroups" *ngIf="isshowNextMatchesGroups">
+                <div class="row">
+                  <div class="card" class="col-md-4 col-sm-12" >
+                    <img src="../../../assets/img/Club1.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">Mad4padel</h5>
+                      <p class="card-text">10/10/2020 10:00</p>
+                      <p class="card-text">Num Jug: 4</p>           
+                      <p class="card-text">Price: 2.50 €</p>
+                      <a routerLink="/reservations/12587952" class="btn btn-primary">Details</a>                                
+                    </div>
+                </div>      
+                </div> 
+            </div>
+            <div id="BoxNextPublicMatches" *ngIf="isshowNextPublicMatches">
+                <div class="row">
+                  <div class="card" class="col-md-4 col-sm-12" >
+                    <img src="../../../assets/img/Club1.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">Mad4padel</h5>
+                      <p class="card-text">10/10/2020 10:00</p>
+                      <p class="card-text">Num Jug: 4</p>           
+                      <p class="card-text">Price: 2.50 €</p>
+                      <a routerLink="/reservations/12587952" class="btn btn-primary">Details</a>                                
+                    </div>
+                </div>        
+                </div>    
+            </div>
+            
+            <div class="row" style="margin-bottom: 2%;">
+                <button class="btn btn-success">Location in Map</button>                
+            </div>            
+
+            <div id="BoxShowinMap">
+                <div class="row">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3035.6727272370804!2d-3.8053340481767677!3d40.46037997925882!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd4186f29f98effd%3A0xb8cf4af6ca31cbc7!2sMad4padel!5e0!3m2!1ses!2ses!4v1595319312476!5m2!1ses!2ses" allowfullscreen></iframe>                                        
+                    </div>            
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

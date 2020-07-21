@@ -15,6 +15,7 @@ import java.util.List;
 
 @Api(tags = "Club Controller")
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class ClubController implements IClubController {
 
     @Autowired

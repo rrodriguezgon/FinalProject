@@ -1,0 +1,132 @@
+<app-navbar></app-navbar>
+
+<div class="container-fluid">
+  <button class="btn btn-success float-right" routerLink="/reservations">Return list</button>  
+  <h1>Create Reservation</h1>
+
+  <div class="row">
+      <div class="col-md-6 col-sm-12">
+          <div class="row col-md-12 col-sm-12">
+            <div class="col-md-4 col-sm-12">
+              <div class="form-group">
+                  <label for="datetxt">Date: </label>
+                  <input type="text" class="form-control" id="datetxt">
+              </div>
+            </div>   
+            <div class="col-md-4 col-sm-12">
+              <div class="form-group">
+                  <label for="hourtxt">Hour: </label>
+                  <select id="hourtxt" class="form-control">
+                      <option>Default select</option>
+                    </select>
+              </div>
+            </div> 
+            <div class="col-md-4 col-sm-12">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                <label class="form-check-label" for="exampleRadios1">private</label>
+              </div> 
+            </div>  
+          </div>                     
+          <div class="col-md-12 col-sm-12">
+            <div class="form-group">
+                <label for="clubtxt">Club: </label>
+                <select id="clubtxt" class="form-control">
+                    <option>Default select</option>
+                  </select>
+            </div>
+          </div> 
+          <div id ="BoxInfoClub">
+            <div class="card">
+              <div class="card-header"> Name Club </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-12 col-sm-12">
+                    <p><strong>Address:</strong> Calle mentira largo largo</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 col-sm-12">
+                    <p><strong>Province:</strong> Madrid</p>
+                  </div>
+                  <div class="col-md-6 col-sm-12">
+                    <p><strong>City:</strong> Pozuelo de Alarcon</p>
+                  </div>
+                </div>              
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-12 col-sm-12">
+                <div class="embed-responsive embed-responsive-16by9">
+                  <iframe class="embed-responsive-item" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3035.6727272370804!2d-3.8053340481767677!3d40.46037997925882!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd4186f29f98effd%3A0xb8cf4af6ca31cbc7!2sMad4padel!5e0!3m2!1ses!2ses!4v1595319312476!5m2!1ses!2ses" allowfullscreen></iframe>                                        
+                </div>                         
+              </div>              
+            </div> 
+          </div>          
+      </div>
+      <div class="col-md-6 col-sm-12">
+          <div class="row">
+              <div class="col-md-12 col-sm-12">
+                  <div id="BoxListPlayers">
+                      <h2>List Players</h2>                            
+                      <br>    
+                      <div class="row">
+                        <div class="col-md-2">
+                            <label for="namePlayertxt">Name: </label>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="namePlayertxt">
+                        </div>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </div>                            
+                      </div>      
+                      <br>               
+                      <div class="row">
+                          <div class="col-md-12 col-sm-12">
+                              <ul class="list-group">
+                                  <li class="list-group-item">Raquel</li>
+                                  <li class="list-group-item">David</li>
+                                  <li class="list-group-item">Cristian</li>
+                                  <li class="list-group-item">Pepe</li>
+                              </ul>                
+                          </div>                            
+                      </div>                        
+                  </div>  
+              </div>               
+          </div>  
+          <br>
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div id="BoxListGroups">
+                    <h2>List Groups</h2>                            
+                    <br>    
+                    <div class="row">
+                      <div class="col-md-2">
+                          <label for="namePlayertxt">Name: </label>
+                      </div>
+                      <div class="col-md-6">
+                          <input type="text" class="form-control" id="namePlayertxt">
+                      </div>
+                      <div class="col-md-4">
+                          <button type="submit" class="btn btn-primary">Add</button>
+                      </div>                            
+                    </div>      
+                    <br>               
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <ul class="list-group">
+                                <li class="list-group-item">Raquel</li>
+                                <li class="list-group-item">David</li>
+                                <li class="list-group-item">Cristian</li>
+                                <li class="list-group-item">Pepe</li>
+                            </ul>                
+                        </div>                            
+                    </div>                        
+                </div>  
+            </div>               
+          </div>                         
+      </div>        
+  </div>
+</div>

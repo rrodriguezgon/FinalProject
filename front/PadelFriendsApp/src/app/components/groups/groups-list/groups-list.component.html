@@ -1,0 +1,49 @@
+<app-navbar></app-navbar>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 col-sm-12">
+            <div id="BoxSearch">
+                <div class="card">
+                    <div class="card-body">                        
+                        <div class="form-group">
+                            <label for="SelectProvince">Province</label>
+                            <select class="form-control" id="SelectProvince" (change) = "changeProvince($event.target.value)">
+                                <option>--- Select Province ---</option>
+                                <option [value]="province" *ngFor='let province of provinceList'>{{province}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="SelectCity">City</label>
+                            <select class="form-control" id="SelectCity" (change) = "changeCity($event.target.value)" >
+                                <option> --- Select City --- </option>
+                                <option *ngFor='let city of cityList'>{{city}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="DateFilter">Date</label>
+                            <input type="text" class="form-control" id="dateFilter" placeholder="02/02/2020 10:00">
+                          </div>
+                          <button class="btn btn-primary">search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-12">
+            <button class="btn btn-success float-right" routerLink="/creategroup">New Group</button>
+            <div id="BoxGroups">   
+                <div class="row">
+                    <div class="card" class="col-md-4 col-sm-12" >
+                        <img src="../../../assets/img/Club1.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title">Name Group</h5> 
+                          <p class="card-text">Ubication: Pozuelo de Alarcon - Madrid</p>                          
+                          <p class="card-text">Num Jug: 4</p>                                     
+                          <a routerLink="/groups/id" class="btn btn-primary">Details</a>                                
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

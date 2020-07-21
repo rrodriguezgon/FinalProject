@@ -1,0 +1,58 @@
+<app-navbar></app-navbar>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 col-sm-12" style="margin-bottom: 2%;">
+            <div class="list-group">
+                <a [class.active]="isShowNextMatches" class="list-group-item list-group-item-action" (click) = "showNextMatches()">Proximos Partidos</a>
+                <a [class.active]="isshowNextMatchesGroups" class="list-group-item list-group-item-action" (click) = "showNextMatchesGroups()">Proximos Partidos de tus grupos</a>
+                <a [class.active]="isshowNextPublicMatches" class="list-group-item list-group-item-action" (click) = "showNextPublicMatches()">Proximos Partidos Publicos</a>                
+              </div>
+        </div>
+        <div class="col-md-9 col-sm-12">
+            <button class="btn btn-success float-right" routerLink="/createreservation">New reservation</button>
+            <div id="BoxNextMatches" *ngIf="isShowNextMatches">   
+                <div class="row">
+                    <div class="card" class="col-md-4 col-sm-12" >
+                        <img src="../../../assets/img/Club1.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title">Mad4padel</h5>
+                          <p class="card-text">10/10/2020 10:00</p>
+                          <p class="card-text">Num Jug: 4</p>           
+                          <p class="card-text">Price: 2.50 €</p>
+                          <a routerLink="/reservations/12587952" class="btn btn-primary">Details</a>                                
+                        </div>
+                    </div>  
+                </div>
+            </div>
+            <div id="BoxNextMatchesGroups" *ngIf="isshowNextMatchesGroups">
+                <div class="row">
+                    <div class="card" class="col-md-4 col-sm-12" >
+                        <img src="../../../assets/img/Club1.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title">Mad4padel</h5>
+                          <p class="card-text">10/10/2020 10:00</p>
+                          <p class="card-text">Num Jug: 4</p>           
+                          <p class="card-text">Price: 2.50 €</p>
+                          <a routerLink="/reservations/12587952" class="btn btn-primary">Details</a>                                
+                        </div>
+                    </div>       
+                </div> 
+            </div>
+            <div id="BoxNextPublicMatches" *ngIf="isshowNextPublicMatches">
+                <div class="row">
+                    <div class="card" class="col-md-4 col-sm-12" >
+                        <img src="../../../assets/img/Club1.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title">Mad4padel</h5>
+                          <p class="card-text">10/10/2020 10:00</p>
+                          <p class="card-text">Num Jug: 4</p>           
+                          <p class="card-text">Price: 2.50 €</p>
+                          <a routerLink="/reservations/12587952" class="btn btn-primary">Details</a>                                
+                        </div>
+                    </div>        
+                </div>    
+            </div>
+        </div>
+    </div>
+</div>
+

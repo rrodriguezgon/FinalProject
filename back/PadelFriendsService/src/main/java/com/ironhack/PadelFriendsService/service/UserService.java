@@ -1,6 +1,7 @@
 package com.ironhack.PadelFriendsService.service;
 
 import com.ironhack.PadelFriendsService.FallbackFunctions.UserServiceFallbackFunctions;
+import com.ironhack.PadelFriendsService.dto.LoginDto;
 import com.ironhack.PadelFriendsService.exceptions.DataNotFoundException;
 import com.ironhack.PadelFriendsService.model.Entity.*;
 import com.ironhack.PadelFriendsService.model.ViewModel.UserViewModel;
@@ -31,6 +32,22 @@ public class UserService implements UserDetailsService {
 
     public List<User> findAll(){
         return serviceFallbackFunctions.findAll();
+    }
+
+    public UserViewModel login(LoginDto loginDto){
+        Optional<User> user = serviceFallbackFunctions.findByUsername(loginDto.getUsername());
+
+        if (user.isPresent()){
+            User userFound = user.get();
+
+            if (!passwordEncoder.matches(loginDto.getPassword(), userFound.getPassword())){
+                throw new UsernameNotFoundException("Invalid username/password combination.");
+            }
+
+            return findById(userFound.getId());
+        } else {
+            throw new UsernameNotFoundException("Invalid username/password combination.");
+        }
     }
 
     public UserViewModel findById(String id){

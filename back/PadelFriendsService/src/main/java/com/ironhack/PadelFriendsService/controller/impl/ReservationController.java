@@ -20,6 +20,7 @@ import java.util.List;
 
 @Api(tags = "Reservation Controller")
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class ReservationController implements IReservationController {
 
     @Autowired
