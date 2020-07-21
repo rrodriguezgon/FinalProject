@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@FeignClient(name="GROUP-SERVICE")
+@FeignClient(name="GROUP-SERVICE", url="https://groupservice.herokuapp.com")
 public interface GroupClient {
 
     /**

@@ -164,3 +164,8 @@
 2020-07-20 14:57:52,080 INFO c.i.P.s.UserService [http-nio-8080-exec-7] Load user by username raquel
 2020-07-20 14:58:04,325 INFO c.i.P.s.UserService [http-nio-8080-exec-8] Load user by username raquel
 2020-07-20 14:58:48,099 INFO c.i.P.s.UserService [http-nio-8080-exec-9] Load user by username raquel
+2020-07-21 18:41:26,332 INFO c.i.P.s.UserService [http-nio-8080-exec-3] Load user by username raquelplayer
+2020-07-21 18:41:57,621 INFO c.i.P.s.UserService [http-nio-8080-exec-4] Load user by username admin
+2020-07-21 18:44:42,498 INFO c.i.P.s.UserService [http-nio-8080-exec-5] Load user by username admin
+2020-07-21 18:45:43,403 INFO c.i.P.s.UserService [http-nio-8080-exec-6] Load user by username raquel
+2020-07-21 18:45:51,611 INFO c.i.P.s.UserService [http-nio-8080-exec-9] Load user by username admin

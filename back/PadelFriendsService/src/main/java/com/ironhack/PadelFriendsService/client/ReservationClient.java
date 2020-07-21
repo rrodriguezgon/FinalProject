@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@FeignClient(name = "RESERVATION-SERVICE")
+@FeignClient(name = "RESERVATION-SERVICE", url="https://reservationsservice.herokuapp.com")
 public interface ReservationClient {
 
     /**

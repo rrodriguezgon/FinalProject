@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@FeignClient(name = "RELATIONS-SERVICE")
+@FeignClient(name = "RELATIONS-SERVICE", url="https://relationservice.herokuapp.com")
 public interface RelationsClient {
 
     @GetMapping("/groupreservations")

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@FeignClient(name = "CLUB-SERVICE")
+@FeignClient(name = "CLUB-SERVICE", url = "https://clubservice.herokuapp.com")
 public interface ClubClient {
 
     /**
