@@ -1,25 +1,25 @@
 <app-navbar></app-navbar>
 
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="clubDetails != null">
     <button class="btn btn-success float-right" routerLink="/clubs">Return list</button>
-    <button class="btn btn-success float-right" routerLink="/clubs/edit/id" style="margin-right: 2%;">Edit</button>
+    <button class="btn btn-success float-right" routerLink="/clubs/edit/{{clubDetails.id}}" style="margin-right: 2%;">Edit</button>
     <h1>Details Club</h1>
   
     <div class="row">
         <div class="col-md-6 col-sm-12">
             <div class="col-md-12 col-sm-12">
-                <p><strong>Name:</strong> Mad4Padel</p>
+                <p><strong>Name:</strong> {{clubDetails.name}}</p>
             </div>
             <div class="row col-md-12 col-sm-12">
                 <div class="col-md-6 col-sm-12">
-                    <p><strong>Province:</strong> Madrid</p>
+                    <p><strong>Province:</strong> {{clubDetails.province}}</p>
                 </div> 
                 <div class="col-md-6 col-sm-12">
-                    <p><strong>City:</strong> Pozuelo de Alarcon</p>
+                    <p><strong>City:</strong> {{clubDetails.city}}</p>
                 </div>                 
             </div>  
             <div class="col-md-12 col-sm-12">
-                <p><strong>Number Courts:</strong> 10</p>
+                <p><strong>Number Courts:</strong> {{clubDetails.numberCourts}}</p>
             </div>         
         </div>
         <div class="col-md-6 col-sm-12">

@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Group } from 'src/app/models/Group/Group';
 import { UserViewModel } from '../../../models/User/UserViewModel';
+import { Group } from 'src/app/models/Group/Group';
 
 import { GroupService } from '../../../services/group.service';
-
-import {NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-groups-list',
@@ -25,10 +23,7 @@ export class GroupsListComponent implements OnInit {
 
   groupList: Group[];
 
-  model: NgbDateStruct;
-  date: {year: number, month: number};
-
-  constructor(private router: Router, private groupService: GroupService, private calendar: NgbCalendar) {  }
+  constructor(private router: Router, private groupService: GroupService) {  }
 
   ngOnInit(): void {
 
@@ -38,7 +33,6 @@ export class GroupsListComponent implements OnInit {
     if (this.user == null){
       this.router.navigate(['/login']);
     } else {
-      console.log('getgroups');
       this.groupService.getGroups().subscribe(
       data => {
         console.log(data);
@@ -76,9 +70,5 @@ export class GroupsListComponent implements OnInit {
 
   changeCity(value: string): void {
     this.citySelected = value;
-  }
-
-  selectToday(): void {
-    this.model = this.calendar.getToday();
   }
 }
