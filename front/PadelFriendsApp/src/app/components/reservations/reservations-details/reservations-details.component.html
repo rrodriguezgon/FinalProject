@@ -9,16 +9,16 @@
       <div class="col-md-6 col-sm-12">
           <div class="row col-md-12 col-sm-12">
             <div class="col-md-6 col-sm-12">
-              <p><strong>Date:</strong> {{reservationDetails.date}}</p>
+              <p><strong>Date:</strong> {{reservationDetails.date | date : "medium"}}</p>
             </div>   
             <div class="col-md-6 col-sm-12">
-              <p><strong>Hour:</strong> {{reservationDetails.date}}</p>
+              <p><strong>Status:</strong> {{reservationDetails.status}}</p>
             </div>             
           </div> 
           <div class="row col-md-12 col-md-12">
             <div class="col-md-6 col-sm-12">
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="radPrivate" id="radPrivate" [checked] = "reservationDetails.private">
+                <input class="form-check-input" type="checkbox" name="radPrivate" id="radPrivate" [checked] = "reservationDetails.private" disabled>
                 <label class="form-check-label" for="radPrivate">private</label>
               </div> 
             </div> 

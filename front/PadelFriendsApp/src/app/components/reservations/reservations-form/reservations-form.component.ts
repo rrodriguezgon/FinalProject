@@ -12,7 +12,7 @@ import { Group } from 'src/app/models/Group/Group';
 
 import { UserViewModel } from '../../../models/User/UserViewModel';
 import { ReservationItemViewModel } from '../../../models/ViewModel/ReservationItemViewModel';
-import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { User } from 'src/app/models/User/User';
 
 import { CreateReservationDto } from 'src/app/models/Reservation/CreateReservationDto';
@@ -30,7 +30,7 @@ export class ReservationsFormComponent implements OnInit {
   showEdit = false;
 
   dateReservation: NgbDateStruct = this.calendar.getToday();
-  hourReservation: {hour: 13, minute: 30};
+  hourReservation: {hour: number, minute: number};
   isprivateReservation: boolean;
   clubIdReservation: string;
 
@@ -72,7 +72,16 @@ export class ReservationsFormComponent implements OnInit {
             this.changeClub(data.club.id);
             this.fillPlayers(data.userList);
             this.fillGroups(data.groupList);
-            console.log(data.date.getDay);
+
+            this.dateReservation = new NgbDate(2020, 19, 2);
+            /*
+            this.dateReservation = new NgbDate(Number(data.date.toString().substr(8, 2)),
+                              Number(data.date.toString().substr(5, 2)),
+                              Number(data.date.toString().substr(0, 4)));
+            */
+            console.log(this.dateReservation);
+            /*this.hourReservation.hour = Number(data.date.toString().substr(11,2));
+            this.hourReservation.minute = Number(data.date.toString().substr(14,2));*/
             this.reservationDetails = data;
           }
         );
@@ -86,7 +95,7 @@ export class ReservationsFormComponent implements OnInit {
   }
 
   selectToday(): void {
-    this.dateReservation = this.calendar.getToday();
+    this.dateReservation = new NgbDate(2020, 19, 2);
   }
 
   fillClubs(): void{
@@ -196,8 +205,12 @@ export class ReservationsFormComponent implements OnInit {
     }
   }
 
-  transformDate(date: Date, ): string{
-    return date.getDay() + '-' + date.getMonth() + '-' + date.getFullYear();
+  transformDate(date: NgbDateStruct ): string{
+    return this.padLeft(date.day.toString(), '0', 2) + '-' + this.padLeft(date.month.toString(), '0', 2)  + '-' + date.year;
+  }
+
+  padLeft(text: string, padChar: string, size: number): string {
+    return (String(padChar).repeat(size) + text).substr( (size * -1), size) ;
   }
 
   submitForm(): void{
@@ -219,7 +232,7 @@ export class ReservationsFormComponent implements OnInit {
       });
 
       const newReservation = new CreateReservationDto(this.clubSelected.id, this.reservationDetails.amount,
-                this.transformDate(this.reservationDetails.date) + ' ' + this.hourReservation.hour + ':' + this.hourReservation.minute,
+                this.transformDate(this.dateReservation) + ' ' + this.hourReservation.hour + ':' + this.hourReservation.minute,
                 this.reservationDetails.private, this.reservationDetails.status, userList, groupList);
 
       if (this.reservationId != null){

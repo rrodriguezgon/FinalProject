@@ -25,18 +25,6 @@
                                 <option *ngFor='let city of cityList'>{{city}}</option>
                             </select>
                         </div>  
-                        <!--
-                        <div class="form-group">
-                            <ngb-datepicker #dp [ngModel] = "model"  (navigate)="date = $event.next"></ngb-datepicker>                    
-                            <hr/>
-
-                            <button class="btn btn-sm btn-outline-primary mr-2" (click)="selectToday()">Select Today</button>
-                            <button class="btn btn-sm btn-outline-primary mr-2" (click)="dp.navigateTo()">To current month</button>
-                            <button class="btn btn-sm btn-outline-primary mr-2" (click)="dp.navigateTo({year: 2013, month: 2})">To Feb 2013</button>
-
-                            <hr/>
-                        </div>
-                    -->
                         <button class="btn btn-primary">search</button>
                     </div>
                 </div>
@@ -51,7 +39,7 @@
                     <img src="../../../assets/img/Club1.jpg" class="card-img-top" alt="...">
                     <div class="card-body">
                       <h5 class="card-title">{{reservation.nameClub}}</h5>
-                      <p class="card-text">{{reservation.date}}</p>
+                      <p class="card-text">{{reservation.date | date : "medium"}}</p>
                       <p class="card-text">Num Jug: {{reservation.numJug}}</p>           
                       <p class="card-text">Price: {{reservation.amount}} €  </p>
                       <a routerLink="/reservations/{{reservation.id}}" class="btn btn-primary">Details</a>                                
@@ -65,7 +53,7 @@
                     <img src="../../../assets/img/Club1.jpg" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">{{reservation.nameClub}}</h5>
-                        <p class="card-text">{{reservation.date}}</p>
+                        <p class="card-text">{{reservation.date | date : "medium"}}</p>
                         <p class="card-text">Num Jug: {{reservation.numJug}}</p>           
                         <p class="card-text">Price: {{reservation.amount}} €  </p>
                       <a routerLink="/reservations/{{reservation.id}}" class="btn btn-primary">Details</a>                                
@@ -79,7 +67,7 @@
                     <img src="../../../assets/img/Club1.jpg" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">{{reservation.nameClub}}</h5>
-                        <p class="card-text">{{reservation.date}}</p>
+                        <p class="card-text">{{reservation.date | date : "medium"}}</p>
                         <p class="card-text">Num Jug: {{reservation.numJug}}</p>           
                         <p class="card-text">Price: {{reservation.amount}} €  </p>
                       <a routerLink="/reservations/{{reservation.id}}" class="btn btn-primary">Details</a>                                
