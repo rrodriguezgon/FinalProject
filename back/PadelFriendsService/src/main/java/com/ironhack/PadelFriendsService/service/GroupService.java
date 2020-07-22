@@ -5,6 +5,8 @@ import com.ironhack.PadelFriendsService.dto.CreateGroupDto;
 import com.ironhack.PadelFriendsService.exceptions.DataNotFoundException;
 import com.ironhack.PadelFriendsService.model.Entity.*;
 import com.ironhack.PadelFriendsService.model.ViewModel.GroupViewModel;
+import com.ironhack.PadelFriendsService.model.ViewModel.ReservationGroupViewModel;
+import com.ironhack.PadelFriendsService.model.ViewModel.UserGroupViewModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,8 @@ public class GroupService {
             throw ex;
         }
 
-        List<Reservation> reservationList = new ArrayList<>();
+        List<UserGroupViewModel> userGroupViewModelList = new ArrayList<>();
+        List<ReservationGroupViewModel> reservationList = new ArrayList<>();
 
         List<GroupReservation> groupReservationList = serviceFallbackFunctions.findByGroupReservationIDUuidGroup(uuidGroup);
         List<UserGroup> userGroupList = serviceFallbackFunctions.findByUserGroupIDUuidGroup(uuidGroup);
@@ -44,22 +47,45 @@ public class GroupService {
             Reservation reservation = serviceFallbackFunctions.findByIdReservation(relationResevation.getGroupReservationID().getUuidReservation());
 
             if (reservation != null){
-                reservationList.add(reservation);
+                Club club = serviceFallbackFunctions.findClubById(reservation.getClubId());
+                String nameClub = "Club not Found.";
+                if (club == null){
+                    DataNotFoundException ex = new DataNotFoundException("This uuid Club not exists. ClubId: " + reservation.getClubId());
+
+                    LOGGER.warn(ex);
+                } else {
+                    nameClub = club.getName();
+                }
+
+                reservationList.add(new ReservationGroupViewModel(reservation.getId(), group.getId(), group.getName(), nameClub,
+                        reservation.getDate(),reservation.getPrivate()));
             }  else {
-                DataNotFoundException ex = new DataNotFoundException("This Reservation does not exist so it cannot be added to the reservation. ReservationId:" + relationResevation.getGroupReservationID().getUuidReservation());
+                DataNotFoundException ex = new DataNotFoundException("This Reservation does not exist so it cannot be added to the Group. ReservationId:" + relationResevation.getGroupReservationID().getUuidReservation());
+
+                LOGGER.warn(ex);
+            }
+        }
+
+        for (UserGroup userGroup : userGroupList){
+            User user = serviceFallbackFunctions.findUserById(userGroup.getUserGroupID().getUuidUser());
+
+            if (user != null){
+                userGroupViewModelList.add(new UserGroupViewModel(user.getId(),group.getId(),user.getName(),group.getName(), userGroup.getProperty(), userGroup.getAdmin()));
+            }  else {
+                DataNotFoundException ex = new DataNotFoundException("This User does not exist so it cannot be added to the Group. ReservationId:" + userGroup.getUserGroupID().getUuidUser());
 
                 LOGGER.warn(ex);
             }
         }
 
         return new GroupViewModel(group.getId(),group.getName(),group.getDescription(),
-                group.getImage(),group.getCreatedAt(), userGroupList, reservationList);
+                group.getImage(), group.getCity(), group.getProvince(),group.getCreatedAt(), userGroupViewModelList, reservationList);
     }
 
     public GroupViewModel create(CreateGroupDto createGroupDto){
-        Group group = new Group(createGroupDto.getName(),createGroupDto.getDescription(),createGroupDto.getImage());
-        List<Reservation> reservationList = new ArrayList<>();
-        List<UserGroup> userGroupList = new ArrayList<>();
+        Group group = new Group(createGroupDto.getName(),createGroupDto.getDescription(),createGroupDto.getImage(), createGroupDto.getCity(),createGroupDto.getProvince());
+        List<ReservationGroupViewModel> reservationList = new ArrayList<>();
+        List<UserGroupViewModel> userGroupViewModelList = new ArrayList<>();
 
         Group groupCreated = serviceFallbackFunctions.createGroup(createGroupDto);
 
@@ -70,7 +96,7 @@ public class GroupService {
                 if (userFound != null) {
                     userGroup.getUserGroupID().setUuidGroup(groupCreated.getId());
                     serviceFallbackFunctions.createUserGroup(userGroup);
-                    userGroupList.add(userGroup);
+                    userGroupViewModelList.add(new UserGroupViewModel(userFound.getId(),group.getId(),userFound.getName(),group.getName(), userGroup.getProperty(), userGroup.getAdmin()));
 
                 } else {
                     DataNotFoundException ex = new DataNotFoundException("This user does not exist so it cannot be added to the Group. UserId: " + userGroup.getUserGroupID().getUuidUser());
@@ -80,7 +106,7 @@ public class GroupService {
         }
 
         return new GroupViewModel(groupCreated.getId(), groupCreated.getName(), groupCreated.getDescription(),
-                groupCreated.getImage(),groupCreated.getCreatedAt(), userGroupList,reservationList);
+                groupCreated.getImage(), groupCreated.getCity(), groupCreated.getProvince(), groupCreated.getCreatedAt(), userGroupViewModelList,reservationList);
     }
 
     public void update(User user, String uuidGroup, CreateGroupDto createGroupDto) {

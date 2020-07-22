@@ -11,14 +11,20 @@ public class Group {
 
     private String image;
 
+    private String city;
+
+    private String province;
+
     private LocalDateTime createdAt;
 
     public Group(){}
 
-    public Group(String name, String description, String image) {
+    public Group(String name, String description, String image, String city, String province) {
         this.name = name;
         this.description = description;
         this.image = image;
+        this.city = city;
+        this.province = province;
     }
 
     public String getId() {
@@ -51,6 +57,22 @@ public class Group {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
     }
 
     public LocalDateTime getCreatedAt() {

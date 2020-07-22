@@ -1,9 +1,6 @@
 package com.ironhack.PadelFriendsService.FallbackFunctions;
 
-import com.ironhack.PadelFriendsService.client.GroupClient;
-import com.ironhack.PadelFriendsService.client.RelationsClient;
-import com.ironhack.PadelFriendsService.client.ReservationClient;
-import com.ironhack.PadelFriendsService.client.UserClient;
+import com.ironhack.PadelFriendsService.client.*;
 import com.ironhack.PadelFriendsService.dto.CreateGroupDto;
 import com.ironhack.PadelFriendsService.exceptions.ServiceNotAccessibleException;
 import com.ironhack.PadelFriendsService.model.Entity.*;
@@ -28,6 +25,9 @@ public class GroupServiceFallbackFunctions {
     @Autowired
     private ReservationClient reservationClient;
 
+    @Autowired
+    private ClubClient clubClient;
+
     @HystrixCommand(fallbackMethod = "findAllGroupsFail")
     public List<Group> findAllGroups(){
         return groupClient.findAll();
@@ -41,6 +41,11 @@ public class GroupServiceFallbackFunctions {
     @HystrixCommand(fallbackMethod = "findUserByIdFail")
     public User findUserById(String uuidUser){
         return userClient.findById(uuidUser);
+    }
+
+    @HystrixCommand(fallbackMethod = "findClubByIdFail")
+    public Club findClubById(String uuidClub){
+        return clubClient.findById(uuidClub);
     }
 
     @HystrixCommand(fallbackMethod = "findByGroupReservationIDUuidGroupFail")
@@ -93,6 +98,10 @@ public class GroupServiceFallbackFunctions {
 
     public User findUserByIdFail(String uuidUser){
         throw new ServiceNotAccessibleException("User Service not Accessible, review logs.");
+    }
+
+    public Club findClubByIdFail(String uuidClub){
+        throw new ServiceNotAccessibleException("Club Service not Accessible, review logs.");
     }
 
     public List<GroupReservation> findByGroupReservationIDUuidGroupFail(String uuidGroup){

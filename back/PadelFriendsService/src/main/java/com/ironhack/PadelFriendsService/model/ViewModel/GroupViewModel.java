@@ -16,19 +16,26 @@ public class GroupViewModel {
 
     private String image;
 
+    private String city;
+
+    private String province;
+
     private LocalDateTime createdAt;
 
-    private List<UserGroup> userGroupList;
+    private List<UserGroupViewModel> userGroupList;
 
-    private List<Reservation> reservationList;
+    private List<ReservationGroupViewModel> reservationList;
 
     public GroupViewModel(){}
 
-    public GroupViewModel(String id, String name, String description, String image, LocalDateTime createdAt, List<UserGroup> userGroupList, List<Reservation> reservationList) {
+    public GroupViewModel(String id, String name, String description, String image, String city, String province, LocalDateTime createdAt,
+                          List<UserGroupViewModel> userGroupList, List<ReservationGroupViewModel> reservationList) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.image = image;
+        this.city = city;
+        this.province = province;
         this.createdAt = createdAt;
         this.userGroupList = userGroupList;
         this.reservationList = reservationList;
@@ -66,6 +73,22 @@ public class GroupViewModel {
         this.image = image;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -74,19 +97,19 @@ public class GroupViewModel {
         this.createdAt = createdAt;
     }
 
-    public List<UserGroup> getUserGroupList() {
+    public List<UserGroupViewModel> getUserGroupList() {
         return userGroupList;
     }
 
-    public void setUserGroupList(List<UserGroup> userGroupList) {
+    public void setUserGroupList(List<UserGroupViewModel> userGroupList) {
         this.userGroupList = userGroupList;
     }
 
-    public List<Reservation> getReservationList() {
+    public List<ReservationGroupViewModel> getReservationList() {
         return reservationList;
     }
 
-    public void setReservationList(List<Reservation> reservationList) {
+    public void setReservationList(List<ReservationGroupViewModel> reservationList) {
         this.reservationList = reservationList;
     }
 }
