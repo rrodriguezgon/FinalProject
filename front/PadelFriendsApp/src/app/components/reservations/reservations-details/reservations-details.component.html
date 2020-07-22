@@ -1,41 +1,46 @@
 <app-navbar></app-navbar>
 
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="reservationDetails != null" >
   <button class="btn btn-success float-right" routerLink="/reservations">Return list</button>
-  <button class="btn btn-success float-right" routerLink="/reservations/edit/id" style="margin-right: 2%;">Edit</button>
+  <button class="btn btn-success float-right" routerLink="/reservations/edit/{{reservationDetails.id}}" style="margin-right: 2%;">Edit</button>
   <h1>Create Reservation</h1>
 
   <div class="row">
       <div class="col-md-6 col-sm-12">
           <div class="row col-md-12 col-sm-12">
-            <div class="col-md-4 col-sm-12">
-              <p><strong>Date:</strong> 10/10/2020</p>
+            <div class="col-md-6 col-sm-12">
+              <p><strong>Date:</strong> {{reservationDetails.date}}</p>
             </div>   
-            <div class="col-md-4 col-sm-12">
-              <p><strong>Hour:</strong> 10:30</p>
-            </div> 
-            <div class="col-md-4 col-sm-12">
+            <div class="col-md-6 col-sm-12">
+              <p><strong>Hour:</strong> {{reservationDetails.date}}</p>
+            </div>             
+          </div> 
+          <div class="row col-md-12 col-md-12">
+            <div class="col-md-6 col-sm-12">
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                <label class="form-check-label" for="exampleRadios1">private</label>
+                <input class="form-check-input" type="radio" name="radPrivate" id="radPrivate" [checked] = "reservationDetails.private">
+                <label class="form-check-label" for="radPrivate">private</label>
               </div> 
             </div> 
-          </div>                  
+            <div class="col-md-6 col-sm-12">
+              <p><strong>Amount:</strong> {{reservationDetails.amount}}</p>
+            </div> 
+          </div>
           <div id ="BoxInfoClub">
             <div class="card">
-              <div class="card-header"> Name Club </div>
+              <div class="card-header"> {{reservationDetails.club.name}} </div>
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-12 col-sm-12">
-                    <p><strong>Address:</strong> Calle mentira largo largo</p>
+                    <p><strong>Address:</strong> {{reservationDetails.club.ubication}}</p>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-md-6 col-sm-12">
-                    <p><strong>Province:</strong> Madrid</p>
+                    <p><strong>Province:</strong> {{reservationDetails.club.province}}</p>
                   </div>
                   <div class="col-md-6 col-sm-12">
-                    <p><strong>City:</strong> Pozuelo de Alarcon</p>
+                    <p><strong>City:</strong> {{reservationDetails.club.city}}</p>
                   </div>
                 </div>              
               </div>
@@ -59,10 +64,7 @@
                       <div class="row">
                           <div class="col-md-12 col-sm-12">
                               <ul class="list-group">
-                                  <li class="list-group-item">Raquel</li>
-                                  <li class="list-group-item">David</li>
-                                  <li class="list-group-item">Cristian</li>
-                                  <li class="list-group-item">Pepe</li>
+                                  <li class="list-group-item" *ngFor="let user of reservationDetails.userList" >{{user.name}}</li>                                  
                               </ul>                
                           </div>                            
                       </div>                        
@@ -78,10 +80,7 @@
                     <div class="row">
                         <div class="col-md-12 col-sm-12">
                             <ul class="list-group">
-                                <li class="list-group-item">Raquel</li>
-                                <li class="list-group-item">David</li>
-                                <li class="list-group-item">Cristian</li>
-                                <li class="list-group-item">Pepe</li>
+                                <li class="list-group-item" *ngFor="let group of reservationDetails.groupList" >{{group.name}}</li>  
                             </ul>                
                         </div>                            
                     </div>                        

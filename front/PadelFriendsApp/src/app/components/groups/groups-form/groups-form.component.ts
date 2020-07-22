@@ -27,11 +27,10 @@ export class GroupsFormComponent implements OnInit {
 
   playerList: Player[];
 
-  groupDetails: GroupDetails;
-
   playerIdSelected = '';
   playerNameSelected = '';
   playerAdmin = false;
+  groupDetails: GroupDetails;
   groupForm: FormGroup;
 
 
