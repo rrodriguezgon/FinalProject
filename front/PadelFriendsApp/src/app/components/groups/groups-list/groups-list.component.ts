@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { Group } from 'src/app/models/Group/Group';
+import { UserViewModel } from '../../../models/User/UserViewModel';
+
+import { GroupService } from '../../../services/group.service';
+
+import {NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-groups-list',
@@ -7,6 +14,8 @@ import { Group } from 'src/app/models/Group/Group';
   styleUrls: ['./groups-list.component.css']
 })
 export class GroupsListComponent implements OnInit {
+
+  user: UserViewModel;
 
   provinceList: string[] = [];
   cityList: string[] = [];
@@ -16,13 +25,30 @@ export class GroupsListComponent implements OnInit {
 
   groupList: Group[];
 
-  constructor() { }
+  model: NgbDateStruct;
+  date: {year: number, month: number};
+
+  constructor(private router: Router, private groupService: GroupService, private calendar: NgbCalendar) {  }
 
   ngOnInit(): void {
-    this.fillProvinceList();
+
+    this.user = JSON.parse(localStorage.getItem('player'));
+
+
+    if (this.user == null){
+      this.router.navigate(['/login']);
+    } else {
+      console.log('getgroups');
+      this.groupService.getGroups().subscribe(
+      data => {
+        console.log(data);
+        this.groupList = data;
+        this.fillProvinceList(data);
+    });
+    }
   }
 
-  fillProvinceList(): void {
+  fillProvinceList(data: Group[]): void {
     this.provinceSelected = '';
     this.provinceList.push('MADRID');
     this.provinceList.push('GIRONA');
@@ -50,5 +76,9 @@ export class GroupsListComponent implements OnInit {
 
   changeCity(value: string): void {
     this.citySelected = value;
+  }
+
+  selectToday(): void {
+    this.model = this.calendar.getToday();
   }
 }

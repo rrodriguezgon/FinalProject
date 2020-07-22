@@ -3,7 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Group } from '../models/Group/Group';
-import { DetailGroup } from '../models/Group/DetailGroup';
+import { GroupDetails } from '../models/Group/GroupDetails';
+import { CreateGroupDto } from 'src/app/models/Group/CreateGroupDto';
 
 import { UserViewModel } from '../models/User/UserViewModel';
 
@@ -14,7 +15,7 @@ export class GroupService {
 
   urlPath = 'http://localhost:8080/groups';
 
-  user: UserViewModel = JSON.parse(localStorage.getItem('currentUser'));
+  user: UserViewModel = JSON.parse(localStorage.getItem('player'));
 
   httpOptions = {
     headers: new HttpHeaders({'Content-Type':  'application/json'})};
@@ -26,10 +27,24 @@ export class GroupService {
     return this.http.get<Group[]>(this.urlPath, this.httpOptions);
   }
 
+  getGroupDetails(groupId: string): Observable<GroupDetails>{
+    this.loadHttp();
+    return this.http.get<GroupDetails>(this.urlPath + '/' + groupId, this.httpOptions);
+  }
+
+  createGroup(groupCreate: CreateGroupDto): Observable<GroupDetails>{
+    this.loadHttp();
+    return this.http.post<GroupDetails>(this.urlPath, groupCreate, this.httpOptions);
+  }
+
+  editGroup(groupId: string, groupCreate: CreateGroupDto): Observable<GroupDetails>{
+    this.loadHttp();
+    return this.http.put<GroupDetails>(this.urlPath + '/' + groupId, groupCreate, this.httpOptions);
+  }
+
   loadHttp(): void {
-    this.user = JSON.parse(localStorage.getItem('currentUser'));
-    this.user.username = 'raquel';
-    this.user.password = 'Admin1234!';
+    this.user = JSON.parse(localStorage.getItem('player'));
+
     if (this.user != null){
       this.httpOptions = {
         headers: new HttpHeaders({

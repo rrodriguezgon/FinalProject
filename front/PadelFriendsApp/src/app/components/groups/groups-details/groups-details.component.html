@@ -1,22 +1,22 @@
 <app-navbar></app-navbar>
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="groupDetails != null">
     <button class="btn btn-success float-right" routerLink="/groups">Return list</button>
-    <button class="btn btn-success float-right" routerLink="/groups/edit/id" style="margin-right: 2%;">Edit</button>
+    <button class="btn btn-success float-right" routerLink="/groups/edit/{{groupDetails.id}}" style="margin-right: 2%;" *ngIf="showEdit" >Edit</button>
     <h1>Details Group</h1>
 
     <div class="row">
         <div class="col-md-6 col-sm-12">
             <div class="col-md-12 col-sm-12">
-                <p><strong>Name:</strong> Padeleros Molones</p>
+                <p><strong>Name: </strong>{{groupDetails.name}}</p>
             </div>
             <div class="col-md-12 col-sm-12">
-                <p><strong>Description:</strong> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quasi cumque, iusto fugiat officiis quia illo iure repellendus similique nulla soluta est! Aspernatur voluptatibus reprehenderit vitae impedit neque assumenda nostrum quod?</p>
+                <p><strong>Description: </strong> {{groupDetails.description}}</p>
             </div>
             <div class="col-md-12 col-sm-12">
-                <p><strong>Province:</strong> Madrid</p>
+                <p><strong>Province: </strong> {{groupDetails.province}}</p>
             </div>
             <div class="col-md-12 col-sm-12">
-                <p><strong>City:</strong> Mostoles</p>
+                <p><strong>City:</strong> {{groupDetails.city}}</p>
             </div>
         </div>
         <div class="col-md-6 col-sm-12">
@@ -28,14 +28,13 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <ul class="list-group">
-                                    <li class="list-group-item">Raquel</li>
-                                    <li class="list-group-item">David</li>
-                                    <li class="list-group-item">Cristian</li>
-                                    <li class="list-group-item">Pepe</li>
+                                    <li class="list-group-item" *ngFor="let user of groupDetails.userGroupList">
+                                        {{user.nameUser}} <span class="badge badge-primary" *ngIf="user.admin">Admin</span> <span class="badge badge-success" *ngIf="user.property">Property</span>
+                                    </li>                                    
                                 </ul>                
                             </div>                            
                         </div>                        
-                    </div>  
+                    </div>
                 </div>               
             </div>                        
         </div>        
@@ -48,10 +47,9 @@
                 <div class="row">
                     <div class="col-md-12">
                         <ul class="list-group">
-                            <li class="list-group-item">Raquel</li>
-                            <li class="list-group-item">David</li>
-                            <li class="list-group-item">Cristian</li>
-                            <li class="list-group-item">Pepe</li>
+                            <a routerLink="/reservations/{{reservation.idReservation}}" class="list-group-item list-group-item-action" *ngFor="let reservation of groupDetails.reservationList">
+                               {{reservation.nameClubReservation}} - {{reservation.dateReservation | date : "medium"}}
+                            </a>    
                         </ul>                
                     </div>                            
                 </div>                        

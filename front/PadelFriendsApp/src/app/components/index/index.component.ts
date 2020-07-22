@@ -19,13 +19,13 @@ export class IndexComponent implements OnInit {
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('player'));
 
-    /*
+    
     if (this.user == null){
       this.router.navigate(['/login']);
     } else {
       console.log(this.user);
     }
-    */
+    
   }
 
 

@@ -1,6 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+
+import es from '@angular/common/locales/es';
+import { registerLocaleData } from '@angular/common';
+registerLocaleData(es);
+
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
@@ -22,6 +28,8 @@ import { ReservationsDetailsComponent } from './components/reservations/reservat
 import { ReservationsFormComponent } from './components/reservations/reservations-form/reservations-form.component';
 import { ReservationsListComponent } from './components/reservations/reservations-list/reservations-list.component';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,11 +49,15 @@ import { ReservationsListComponent } from './components/reservations/reservation
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbModule
   ],
-  providers: [],
+  providers: [
+    { provide: LOCALE_ID, useValue: "es-ES" }, //your locale
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
