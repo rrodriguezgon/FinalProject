@@ -38,7 +38,7 @@ public class ClubService {
         List<Reservation> reservationList = fallbackFunctions.findReservationByClubId(uuidClub);
 
         return new ClubViewModel(club.getId(),club.getUbication(),
-                club.getName(),club.getNumberCourts(),reservationList);
+                club.getName(),club.getCity(),club.getProvince(),club.getLatitude(),club.getLongitude(),club.getNumberCourts(),reservationList);
     }
 
     public ClubViewModel create(Club club){
@@ -46,7 +46,8 @@ public class ClubService {
         List<Reservation> reservationList = new ArrayList<>();
 
         return new ClubViewModel(clubCreated.getId(),clubCreated.getUbication(),
-                clubCreated.getName(),clubCreated.getNumberCourts(),reservationList);
+                clubCreated.getName(),clubCreated.getCity(),clubCreated.getProvince(),clubCreated.getLatitude(),
+                clubCreated.getLongitude(),clubCreated.getNumberCourts(),reservationList);
     }
 
     public void update(String uuidClub, Club clubUpdated){
