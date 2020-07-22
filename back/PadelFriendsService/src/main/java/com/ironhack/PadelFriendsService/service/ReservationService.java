@@ -4,12 +4,14 @@ import com.ironhack.PadelFriendsService.FallbackFunctions.ReservationServiceFall
 import com.ironhack.PadelFriendsService.dto.CreateReservationDto;
 import com.ironhack.PadelFriendsService.exceptions.DataNotFoundException;
 import com.ironhack.PadelFriendsService.model.Entity.*;
+import com.ironhack.PadelFriendsService.model.ViewModel.ReservationListViewModel;
 import com.ironhack.PadelFriendsService.model.ViewModel.ReservationViewModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +23,39 @@ public class ReservationService {
     @Autowired
     private ReservationServiceFallbackFunctions serviceFallbackFunctions;
 
-    public List<Reservation> findAll(){
-        return serviceFallbackFunctions.findAll();
+    public List<ReservationListViewModel> findAll(){
+        List<Reservation> reservationList = serviceFallbackFunctions.findAll();
+
+        List<ReservationListViewModel> reservationListViewModelList = new ArrayList<>();
+
+        reservationList.forEach(reservation -> {
+            Club club = serviceFallbackFunctions.findClubById(reservation.getClubId());
+            String nameClub = "Club not Found";
+            if (club == null){
+                DataNotFoundException ex = new DataNotFoundException("This uuid Club not exists. Parameter: " + reservation.getClubId());
+
+                LOGGER.error(ex);
+                throw ex;
+            } else {
+                nameClub = club.getName();
+            }
+
+            List<UserReservation> userReservationList =  serviceFallbackFunctions.findByUserReservationIDUuidReservation(reservation.getId());
+            List<GroupReservation> groupReservationList = serviceFallbackFunctions.findByGroupReservationIDUuidReservation(reservation.getId());
+            BigDecimal amountXPlayer;
+
+            if (userReservationList.size() > 0){
+                amountXPlayer = reservation.getAmount().divide(new BigDecimal(userReservationList.size()));
+            } else {
+                amountXPlayer = reservation.getAmount();
+            }
+
+
+            reservationListViewModelList.add(new ReservationListViewModel(reservation.getId(), nameClub,
+                    userReservationList.size(), reservation.getDate(), amountXPlayer ));
+        });
+
+        return reservationListViewModelList;
     }
 
     public ReservationViewModel findById(String id){

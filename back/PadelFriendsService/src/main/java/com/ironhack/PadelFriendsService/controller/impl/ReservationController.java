@@ -6,6 +6,7 @@ import com.ironhack.PadelFriendsService.model.Entity.Club;
 import com.ironhack.PadelFriendsService.model.Entity.Reservation;
 import com.ironhack.PadelFriendsService.model.Entity.User;
 import com.ironhack.PadelFriendsService.model.ViewModel.ClubViewModel;
+import com.ironhack.PadelFriendsService.model.ViewModel.ReservationListViewModel;
 import com.ironhack.PadelFriendsService.model.ViewModel.ReservationViewModel;
 import com.ironhack.PadelFriendsService.service.ReservationService;
 import io.swagger.annotations.Api;
@@ -31,7 +32,7 @@ public class ReservationController implements IReservationController {
             notes = "Display all Reservations",
             response = Reservation.class, responseContainer = "List")
     @ResponseStatus(HttpStatus.OK)
-    public List<Reservation> findAll() {
+    public List<ReservationListViewModel> findAll() {
         return reservationService.findAll();
     }
 
