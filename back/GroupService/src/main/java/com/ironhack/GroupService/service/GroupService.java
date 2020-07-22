@@ -83,7 +83,8 @@ public class GroupService {
                 groupFound.setName(group.getName());
                 groupFound.setDescription(group.getDescription());
                 groupFound.setImage(group.getImage());
-
+                groupFound.setProvince(group.getProvince());
+                groupFound.setCity(group.getCity());
                 groupRepository.save(groupFound);
             }
         } catch (Exception ex) {
