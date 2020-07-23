@@ -28,7 +28,8 @@ import { ReservationsDetailsComponent } from './components/reservations/reservat
 import { ReservationsFormComponent } from './components/reservations/reservations-form/reservations-form.component';
 import { ReservationsListComponent } from './components/reservations/reservations-list/reservations-list.component';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { MapComponent } from './components/map/map.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     GroupsListComponent,
     ReservationsDetailsComponent,
     ReservationsFormComponent,
-    ReservationsListComponent
+    ReservationsListComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +55,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    NgbModule
+    NgbModule,
+    NgbTimepickerModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: "es-ES" }, //your locale

@@ -30,14 +30,14 @@ export class ReservationsFormComponent implements OnInit {
   showEdit = false;
 
   dateReservation: NgbDateStruct = this.calendar.getToday();
-  hourReservation: {hour: number, minute: number};
+  hourReservation = {hour: 13, minute: 30};
   isprivateReservation: boolean;
   clubIdReservation: string;
 
-  pronvices: ['Barcelona', 'Gerona', 'Madrid'];
-  cities: ['Figueres', 'Pozuelo de Alarcón', 'Alcorcon'];
   clubs: Club[];
   clubSelected: Club;
+
+  statusList = ['CLOSED'];
 
   playerList: Player[] = [];
 
@@ -63,7 +63,10 @@ export class ReservationsFormComponent implements OnInit {
     if (this.user == null){
       this.router.navigate(['/login']);
     } else {
-      this.route.params.subscribe((params) => (this.reservationId = params.id));
+      this.route.params.subscribe(
+        (params) => {
+          this.reservationId = params.id;
+        });
 
       if (this.reservationId != null){
         this.reservationService.getReservation(this.reservationId).subscribe(
@@ -73,29 +76,33 @@ export class ReservationsFormComponent implements OnInit {
             this.fillPlayers(data.userList);
             this.fillGroups(data.groupList);
 
-            this.dateReservation = new NgbDate(2020, 19, 2);
-            /*
-            this.dateReservation = new NgbDate(Number(data.date.toString().substr(8, 2)),
-                              Number(data.date.toString().substr(5, 2)),
-                              Number(data.date.toString().substr(0, 4)));
-            */
-            console.log(this.dateReservation);
-            /*this.hourReservation.hour = Number(data.date.toString().substr(11,2));
-            this.hourReservation.minute = Number(data.date.toString().substr(14,2));*/
+            let year = Number(data.date.toString().substr(0, 4));
+            let day = Number(data.date.toString().substr(8, 2));
+            let month = Number(data.date.toString().substr(5, 2));
+
+            this.dateReservation = new NgbDate(year, month, day);
+
+            let hour = Number(data.date.toString().substr(11, 2));
+            let minute = Number(data.date.toString().substr(14, 2));
+
+            this.hourReservation.hour = hour;
+            this.hourReservation.minute = minute;
+
             this.reservationDetails = data;
           }
         );
       } else {
         this.fillClubs();
-        this.fillPlayers(null);
-        this.fillGroups(null);
+        this.fillPlayers([]);
+        this.fillGroups([]);
         this.reservationDetails = new ReservationItemViewModel();
+        this.dateReservation = this.calendar.getToday();
       }
     }
   }
 
   selectToday(): void {
-    this.dateReservation = new NgbDate(2020, 19, 2);
+    this.dateReservation = new NgbDate(2020, 2, 19);
   }
 
   fillClubs(): void{
@@ -113,13 +120,19 @@ export class ReservationsFormComponent implements OnInit {
       });
   }
 
+  changedPrivate(value: boolean): void {
+    this.reservationDetails.private = value;
+  }
+
   fillPlayers(users: User[]): void {
     this.userService.getPlayers().subscribe(data => {
       this.playerList = data;
 
-      users.map(user => {
-        this.playerList = this.playerList.filter(item => item.id !== user.id);
-      });
+      if (users.length > 0){
+        users.map(user => {
+          this.playerList = this.playerList.filter(item => item.id !== user.id);
+        });
+      }
     });
   }
 
@@ -161,9 +174,11 @@ export class ReservationsFormComponent implements OnInit {
     this.groupService.getGroups().subscribe(data => {
       this.groupList = data;
 
-      groups.map(group => {
-        this.groupList = this.groupList.filter(item => item.id !== group.id);
-      });
+      if (groups.length > 0){
+        groups.map(group => {
+          this.groupList = this.groupList.filter(item => item.id !== group.id);
+        });
+      }
     });
   }
 
@@ -191,6 +206,9 @@ export class ReservationsFormComponent implements OnInit {
     this.reservationDetails.amount = event;
   }
 
+  changeStatus(value: string): void {
+    this.reservationDetails.status = value;
+  }
   addGroup(): void {
     if (this.groupIdSelected !== '') {
       const group = new Group();
@@ -217,7 +235,8 @@ export class ReservationsFormComponent implements OnInit {
     if (this.dateReservation != null &&
       this.hourReservation != null &&
       this.clubSelected != null &&
-      this.reservationDetails.amount != null){
+      this.reservationDetails.amount != null &&
+      this.reservationDetails.status !== ''){
 
       const userList = [];
 
@@ -254,6 +273,8 @@ export class ReservationsFormComponent implements OnInit {
               }
             );
           }
+    } else {
+      console.log('faltan campos');
     }
   }
 }

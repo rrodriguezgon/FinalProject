@@ -58,7 +58,10 @@
                             <div class="col-md-12 col-sm-12">
                                 <ul class="list-group">
                                     <li class="list-group-item" *ngFor="let user of groupDetails.userGroupList">
-                                        {{user.nameUser}} <span class="badge badge-primary" *ngIf="user.admin">Admin</span> <span class="badge badge-success" *ngIf="user.property">Property</span>
+                                        {{user.nameUser}} 
+                                        <span class="badge badge-primary" *ngIf="user.admin">Admin</span> 
+                                        <span class="badge badge-success" *ngIf="user.property">Property</span>
+                                        - <button (click)="removePlayerList(user.userId, user.nameUser)">delete</button>
                                     </li>                                    
                                 </ul>                   
                             </div>                            

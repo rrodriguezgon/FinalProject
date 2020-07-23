@@ -110,7 +110,21 @@ export class GroupsFormComponent implements OnInit {
       newPlayer.admin = this.playerAdmin;
 
       this.groupDetails.userGroupList.push(newPlayer);
+
+      this.playerList = this.playerList.filter(item => item.id !== this.playerIdSelected);
+      this.playerIdSelected = '';
+      this.playerNameSelected = '';
     }
+  }
+
+  removePlayerList(idPlayer: string, namePlayer: string): void {
+    this.groupDetails.userGroupList = this.groupDetails.userGroupList.filter(item => item.userId !== idPlayer);
+
+    const player = new Player();
+    player.id = idPlayer;
+    player.name = namePlayer;
+
+    this.playerList.push(player);
   }
 
   submitGroup(): void {
