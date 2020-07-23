@@ -1,12 +1,10 @@
 package com.ironhack.RelationsService.model;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
+@Document
 public class UserReservation {
 
-    @EmbeddedId
     private UserReservationID userReservationID;
 
     public UserReservation(){}

@@ -1,12 +1,10 @@
 package com.ironhack.RelationsService.model;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
+@Document
 public class UserGroup {
 
-    @EmbeddedId
     private UserGroupID userGroupID;
 
     private Boolean property;

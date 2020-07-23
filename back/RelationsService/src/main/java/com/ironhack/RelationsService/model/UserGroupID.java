@@ -1,9 +1,7 @@
 package com.ironhack.RelationsService.model;
 
-import javax.persistence.Embeddable;
 import java.io.Serializable;
 
-@Embeddable
 public class UserGroupID  implements Serializable {
     String uuidGroup;
     String uuidUser;

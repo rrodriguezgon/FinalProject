@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,7 +20,9 @@ public class UserGroupService {
 
     public List<UserGroup> findAll(){
         try {
-            return userGroupRepository.findAll();
+            List<UserGroup> result = new ArrayList<>();
+            userGroupRepository.findAll().forEach(result::add);
+            return result;
         } catch (Exception ex) {
             LOGGER.error(ex);
             throw ex;

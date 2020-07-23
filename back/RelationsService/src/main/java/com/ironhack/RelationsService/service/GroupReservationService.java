@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,7 +20,10 @@ public class GroupReservationService {
 
     public List<GroupReservation> findAll(){
         try {
-            return groupReservationRepository.findAll();
+            List<GroupReservation> result = new ArrayList<GroupReservation>();
+            groupReservationRepository.findAll().forEach(result::add);
+
+            return result;
         } catch (Exception ex) {
             LOGGER.error(ex);
             throw ex;

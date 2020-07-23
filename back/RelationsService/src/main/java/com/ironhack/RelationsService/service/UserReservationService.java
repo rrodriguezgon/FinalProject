@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,7 +22,10 @@ public class UserReservationService {
 
     public List<UserReservation> findAll(){
         try {
-            return userReservationRepository.findAll();
+            List<UserReservation> result = new ArrayList<>();
+            userReservationRepository.findAll().forEach(result::add);
+
+            return result;
         } catch (Exception ex) {
             LOGGER.error(ex);
             throw ex;
