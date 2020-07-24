@@ -11,7 +11,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-public class ClubControllerImpl implements IClubController {
+public class ClubController implements IClubController {
 
     @Autowired
     private ClubService clubService;

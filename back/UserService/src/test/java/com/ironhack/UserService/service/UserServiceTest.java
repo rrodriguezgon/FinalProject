@@ -1,11 +1,11 @@
-package com.ironhack.ReservationService.controller.impl;
+package com.ironhack.UserService.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ReservationControllerImplTest {
+class UserServiceTest {
 
     @BeforeEach
     void setUp() {
@@ -20,6 +20,10 @@ class ReservationControllerImplTest {
     }
 
     @Test
+    void findByUsername() {
+    }
+
+    @Test
     void create() {
     }
 
@@ -29,9 +33,5 @@ class ReservationControllerImplTest {
 
     @Test
     void delete() {
-    }
-
-    @Test
-    void getStatusList() {
     }
 }
