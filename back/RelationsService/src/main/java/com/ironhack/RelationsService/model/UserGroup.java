@@ -1,10 +1,12 @@
 package com.ironhack.RelationsService.model;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 public class UserGroup {
 
+    @Id
     private UserGroupID userGroupID;
 
     private Boolean property;
