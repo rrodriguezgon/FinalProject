@@ -86,14 +86,16 @@ The **Postman documentation** is available with the url of the **microservices d
 
 | Microservice | Class % | Method % | Line % |
 | ------ | --------------- | --------------- | --------------- |
-| Club Service   | 100 % | 100 % | 100 % |
-| Group Service   | 100 % | 94 % | 96 % |
+| Club Service   | 100 % | 96 % | 78 % |
+| Group Service   | 100 % | 97 % | 83 % |
 | Relations Service   | 100 % | 84 % | 91 % |
-| Reservations Service   | 100 % | 97 % | 84 % |
+| Reservations Service   | 100 % | 87 % | 71 % |
 | Padel Friends Edge Service   | 100 % | 99 % | 85 % |
-| User Service   | 100 % | 97 % | 81 % |
+| User Service   | 83 % | 13 % | 10 % |
 
 ## Front-End
+
+https://padelfriends-1e8e0.web.app/
 
 The front-end is only dedicated to the **Admin** and **Player** Users, to have to access to all functionality you must use **Swagger** in your computer.
 
@@ -134,7 +136,6 @@ I would like to show a little bit how the integration has been done.
 
 
 ### Credentials
-The first thing to do is to **create an Admin**, for that you can use Postman (https://techhotel-edge.herokuapp.com/users/admins) or Swagger (http://localhost:8081/users/admins)
 
 | Username | Password |
 | ------ | --------------- |
