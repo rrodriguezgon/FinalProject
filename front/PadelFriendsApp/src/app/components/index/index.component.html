@@ -1,0 +1,52 @@
+<app-navbar></app-navbar>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 col-sm-12" style="margin-bottom: 2%;">
+            <div class="list-group">
+                <a [class.active]="isShowNextMatches" class="list-group-item list-group-item-action" (click) = "showNextMatches()">Next Matches</a>
+                <a [class.active]="isshowNextPublicMatches" class="list-group-item list-group-item-action" (click) = "showNextPublicMatches()">Upcoming Public Matches</a>                
+              </div>
+        </div>
+        <div class="col-md-9 col-sm-12">
+            <button class="btn btn-success float-right" routerLink="/createreservation">New reservation</button>
+            <div class="text-center" *ngIf="showSpinner" >
+              <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+                  <span class="sr-only">Loading...</span>
+              </div>                
+          </div>    
+          <div class="alert alert-danger" role="alert" *ngIf="showAlert" (click)="hideAlert()" >
+              {{messageAlert}}
+          </div>  
+            <div id="BoxNextMatches" *ngIf="isShowNextMatches">   
+                <div class="row">
+                  <div class="card" class="col-md-4 col-sm-12" *ngFor="let reservation of reservationsUserList" >
+                    <img src="../../../assets/img/Club1.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">{{reservation.nameClub}}</h5>
+                      <p class="card-text">{{reservation.cityClub}} - {{reservation.provinceClub}}</p>
+                      <p class="card-text">{{reservation.date | date : "medium"}}</p>
+                      <p class="card-text">Num Jug: {{reservation.numJug}}</p>           
+                      <p class="card-text">Price: {{reservation.amount}} €  </p>
+                      <a routerLink="/reservations/{{reservation.id}}" class="btn btn-primary">Details</a>                                
+                    </div>
+                </div>                      
+                </div>
+            </div>
+            <div id="BoxNextPublicMatches" *ngIf="isshowNextPublicMatches">
+                <div class="row">
+                  <div class="card" class="col-md-4 col-sm-12" *ngFor="let reservation of reservationsPublicList" >
+                    <img src="../../../assets/img/Club1.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">{{reservation.nameClub}}</h5>
+                      <p class="card-text">{{reservation.cityClub}} - {{reservation.provinceClub}}</p>
+                      <p class="card-text">{{reservation.date | date : "medium"}}</p>
+                      <p class="card-text">Num Jug: {{reservation.numJug}}</p>           
+                      <p class="card-text">Price: {{reservation.amount}} €  </p>
+                      <a routerLink="/reservations/{{reservation.id}}" class="btn btn-primary">Details</a>                                
+                    </div>
+                </div>        
+                </div>    
+            </div>
+        </div>
+    </div>
+</div>

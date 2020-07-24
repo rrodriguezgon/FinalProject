@@ -1,0 +1,189 @@
+<app-navbar></app-navbar>
+<div class="text-center" *ngIf="showSpinner" >
+  <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+      <span class="sr-only">Loading...</span>
+  </div>                
+</div> 
+
+<div class="container-fluid" *ngIf="reservationDetails != null">
+  <button class="btn btn-success float-right" routerLink="/reservations">Return list</button>  
+  <div *ngIf="!showButtonSpinner">
+    <button class="btn btn-primary float-right" (click) = "submitForm()" > {{title}}</button>
+  </div>
+  <div *ngIf="showButtonSpinner">
+    <button class="btn btn-primary float-right" type="button" disabled>
+      <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+      {{title}} ...
+    </button>
+  </div>
+  
+  <h1>{{title}} Reservation</h1>
+  <div class="alert alert-danger" role="alert" *ngIf="showAlert" (click)="hideAlert()" >
+    {{messageAlert}} click me to make it go away
+  </div>  
+
+  <div class="row">  
+      <div class="col-md-6 col-sm-12" style="margin-bottom: 10px;">
+          <div class="row col-md-12 col-sm-12">
+            <div class="col-md-6 col-sm-12">
+              <div class="form-group">
+                  <label for="datetxt">Date: </label>
+                    <div class="input-group">
+                      <input class="form-control" placeholder="dd-mm-yyyy"
+                             name="dp" [(ngModel)]="dateReservation" ngbDatepicker #d="ngbDatepicker">
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+                      </div>
+                    </div>
+              </div>
+            </div>   
+            <div class="col-md-6 col-sm-12">
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-md-6 col-sm-12">
+                    <label for="hourtxt">Hour: </label>
+                  </div>
+                  <div class="col-md-6 col-sm-12">
+                    <ngb-timepicker [(ngModel)]="hourReservation"></ngb-timepicker>
+                  </div>                  
+                </div>
+                  
+              </div>
+            </div>             
+          </div>   
+          <div class="row col-md-12 col-sm-12">
+            <div class="col-md-6 col-sm-12">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="private" id="private" [ngModel]="reservationDetails.private" (change) =  "changedPrivate($event.target.checked)">
+                <label class="form-check-label" for="exampleRadios1">private</label>
+              </div> 
+            </div> 
+            <div class="col-md-6 col-sm-12">
+              <div class="form-group">
+                <label for="amounttxt">Amount: </label>
+                <input [ngModel] ="reservationDetails.amount" type="number" class="form-control" id="amounttxt" (change) = "changeAmount($event.target.value)">
+            </div>
+            </div>  
+          </div>   
+          <div class="col-md-12 col-sm-12">
+            <div class="form-group">
+                <label for="clubtxt">Status: </label>
+                <select id="clubtxt" class="form-control" (change)="changeStatus($event.target.value)" [ngModel] = "reservationDetails.status" >
+                    <option value=''>Default select</option>
+                    <option *ngFor="let status of statusList" [value] = "status" >{{status}} </option>
+                  </select>
+            </div>
+          </div> 
+          <div class="col-md-12 col-sm-12">
+            <div class="form-group">
+                <label for="clubtxt">Club: </label>
+                <select id="clubtxt" class="form-control" (change)="changeClub($event.target.value)" [ngModel] = "reservationDetails.club.id" >
+                    <option value=''>Default select</option>
+                    <option *ngFor="let clubObj of clubs" [value] = "clubObj.id" >{{clubObj.name}} </option>
+                  </select>
+            </div>
+          </div> 
+          <div class="text-center" *ngIf="showSpinnerClub" >
+            <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>                
+          </div> 
+          <div id ="BoxInfoClub" *ngIf="clubSelected != null" >
+            <div class="card">
+              <div class="card-header"> {{clubSelected.name}} </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-12 col-sm-12">
+                    <p><strong>Address:</strong> {{clubSelected.ubication}}</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 col-sm-12">
+                    <p><strong>Province:</strong> {{clubSelected.province}}</p>
+                  </div>
+                  <div class="col-md-6 col-sm-12">
+                    <p><strong>City:</strong> {{clubSelected.city}}</p>
+                  </div>
+                </div>              
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-12 col-sm-12" style="height: 500px;">                
+                <app-map [latitude] ="clubSelected.latitude" [longitude] = "clubSelected.longitude"></app-map>                            
+              </div>              
+            </div> 
+          </div>   
+        </div>
+      <div class="col-md-6 col-sm-12">
+          <div class="row">
+              <div class="col-md-12 col-sm-12">
+                  <div id="BoxListPlayers">
+                      <h2>List Players</h2>                            
+                      <br>    
+                      <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                            <label for="SelectPlayer">Player</label>
+                            <select class="form-control" id="SelectPlayer" (change) = "changedPlayer($event)" >
+                                <option value=""> --- Select Player --- </option>
+                                <option [value]="player.id" *ngFor='let player of playerList'>{{player.name}}</option>
+                            </select>
+                        </div>   
+                        <div class="col-md-2 col-sm-6">
+                            <button type="submit" class="btn btn-primary" (click) = "addPlayer()" >Add</button>
+                        </div>       
+                      </div>      
+                      <br>               
+                      <div class="row">
+                          <div class="col-md-12 col-sm-12">
+                              <ul class="list-group">
+                                <li class="list-group-item" *ngFor="let user of reservationDetails.userList">
+                                  {{user.name}} - <button (click)="removePlayer(user.id, user.name)">delete</button>
+                               </li> 
+                              </ul>                
+                          </div>                            
+                      </div>                        
+                  </div>  
+              </div>               
+          </div>  
+          <br>
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div id="BoxListGroups">
+                    <h2>List Groups</h2>                            
+                    <br>    
+                    <div class="row">
+                      <div class="col-md-6 col-sm-6">
+                          <label for="SelectGroup">Group</label>
+                          <select class="form-control" id="SelectGroup" (change) = "changedGroup($event)" >
+                              <option value=""> --- Select Group --- </option>
+                              <option [value]="player.id" *ngFor='let player of groupList'>{{player.name}}</option>
+                          </select>
+                      </div>   
+                      <div class="col-md-2 col-sm-6">
+                          <button type="submit" class="btn btn-primary" (click) = "addGroup()" >Add</button>
+                      </div>       
+                    </div>       
+                    <br>               
+                    <div class="row">
+                      <div class="col-md-12 col-sm-12">
+                          <ul class="list-group">
+                            <li class="list-group-item" *ngFor="let group of reservationDetails.groupList">
+                              {{group.name}} - <button (click)="removeGroup(group.id, group.name)">delete</button>
+                           </li> 
+                          </ul>                
+                      </div>                            
+                  </div>                        
+                </div>  
+            </div>               
+          </div>                         
+      </div>        
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div class="text-center">
+            <button class="btn btn-primary" (click) = "submitForm()" >{{title}}</button>
+        </div>            
+    </div>
+</div>
+</div>

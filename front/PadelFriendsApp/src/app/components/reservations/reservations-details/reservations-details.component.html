@@ -1,0 +1,97 @@
+<app-navbar></app-navbar>
+<div class="text-center" *ngIf="showSpinner" >
+  <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+      <span class="sr-only">Loading...</span>
+  </div>                
+</div>   
+
+<div class="container-fluid" *ngIf="reservationDetails != null" >
+  <button class="btn btn-success float-right" routerLink="/reservations">Return list</button>
+  <button class="btn btn-success float-right" routerLink="/reservations/edit/{{reservationDetails.id}}" style="margin-right: 2%;">Edit</button>
+  <h1>Details Reservation</h1>
+  <div class="row"> 
+  <div class="alert alert-danger" role="alert" *ngIf="showAlert" (click)="hideAlert()" >
+      {{messageAlert}}
+  </div>  
+      <div class="col-md-6 col-sm-12">
+          <div class="row col-md-12 col-sm-12">
+            <div class="col-md-6 col-sm-12">
+              <p><strong>Date:</strong> {{reservationDetails.date | date : "medium"}}</p>
+            </div>   
+            <div class="col-md-6 col-sm-12">
+              <p><strong>Status:</strong> {{reservationDetails.status}}</p>
+            </div>             
+          </div> 
+          <div class="row col-md-12 col-md-12">
+            <div class="col-md-6 col-sm-12">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="radPrivate" id="radPrivate" [checked] = "reservationDetails.private" disabled>
+                <label class="form-check-label" for="radPrivate">private</label>
+              </div> 
+            </div> 
+            <div class="col-md-6 col-sm-12">
+              <p><strong>Amount:</strong> {{reservationDetails.amount}}</p>
+            </div> 
+          </div>
+          <div id ="BoxInfoClub">
+            <div class="card">
+              <div class="card-header"> {{reservationDetails.club.name}} </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-12 col-sm-12">
+                    <p><strong>Address:</strong> {{reservationDetails.club.ubication}}</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 col-sm-12">
+                    <p><strong>Province:</strong> {{reservationDetails.club.province}}</p>
+                  </div>
+                  <div class="col-md-6 col-sm-12">
+                    <p><strong>City:</strong> {{reservationDetails.club.city}}</p>
+                  </div>
+                </div>              
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-12 col-sm-12" style="height: 500px;">                
+                <app-map [latitude] ="reservationDetails.club.latitude" [longitude] = "reservationDetails.club.longitude"></app-map>                
+              </div>              
+            </div> 
+          </div>          
+      </div>
+      <div class="col-md-6 col-sm-12">
+          <div class="row">
+              <div class="col-md-12 col-sm-12">
+                  <div id="BoxListPlayers">
+                      <h2>List Players</h2>                            
+                      <br>                 
+                      <div class="row">
+                          <div class="col-md-12 col-sm-12">
+                              <ul class="list-group">
+                                  <li class="list-group-item" *ngFor="let user of reservationDetails.userList" >{{user.name}}</li>                                  
+                              </ul>                
+                          </div>                            
+                      </div>                        
+                  </div>  
+              </div>               
+          </div>  
+          <br>
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div id="BoxListGroups">
+                    <h2>List Groups</h2>                            
+                    <br>               
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <ul class="list-group">
+                                <li class="list-group-item" *ngFor="let group of reservationDetails.groupList" >{{group.name}}</li>  
+                            </ul>                
+                        </div>                            
+                    </div>                        
+                </div>  
+            </div>               
+          </div>                         
+      </div>        
+  </div>
+</div>

@@ -1,0 +1,64 @@
+<app-navbar></app-navbar>
+<div class="text-center" *ngIf="showSpinner" >
+    <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>                
+</div>   
+<div class="container-fluid" *ngIf="groupDetails != null">
+    <button class="btn btn-success float-right" routerLink="/groups">Return list</button>
+    <button class="btn btn-success float-right" routerLink="/groups/edit/{{groupDetails.id}}" style="margin-right: 2%;" *ngIf="showEdit" >Edit</button>
+    <h1>Details Group</h1>
+
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <div class="col-md-12 col-sm-12">
+                <p><strong>Name: </strong>{{groupDetails.name}}</p>
+            </div>
+            <div class="col-md-12 col-sm-12">
+                <p><strong>Description: </strong> {{groupDetails.description}}</p>
+            </div>
+            <div class="col-md-12 col-sm-12">
+                <p><strong>Province: </strong> {{groupDetails.province}}</p>
+            </div>
+            <div class="col-md-12 col-sm-12">
+                <p><strong>City:</strong> {{groupDetails.city}}</p>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <div id="BoxListPlayers" style="margin-bottom: 3%;">
+                        <h2>List Players</h2>                            
+                        <br>                  
+                        <div class="row">
+                            <div class="col-md-12">
+                                <ul class="list-group">
+                                    <li class="list-group-item" *ngFor="let user of groupDetails.userGroupList">
+                                        {{user.nameUser}} <span class="badge badge-primary" *ngIf="user.admin">Admin</span> <span class="badge badge-success" *ngIf="user.property">Property</span>
+                                    </li>                                    
+                                </ul>                
+                            </div>                            
+                        </div>                        
+                    </div>
+                </div>               
+            </div>                        
+        </div>        
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div id="BoxListPlayers" style="margin-bottom: 3%;">
+                <h2>List Reservations</h2>                            
+                <br>                  
+                <div class="row">
+                    <div class="col-md-12">
+                        <ul class="list-group">
+                            <a routerLink="/reservations/{{reservation.idReservation}}" class="list-group-item list-group-item-action" *ngFor="let reservation of groupDetails.reservationList">
+                               {{reservation.nameClubReservation}} - {{reservation.dateReservation | date : "medium"}}
+                            </a>    
+                        </ul>                
+                    </div>                            
+                </div>                        
+            </div>  
+        </div>               
+    </div> 
+</div>
