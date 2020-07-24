@@ -18,7 +18,7 @@ import java.util.List;
 
 @Api(tags = "User Controller")
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200", "https://padelfriends-1e8e0.web.app"} )
 public class UserController implements IUserController {
 
     @Autowired
