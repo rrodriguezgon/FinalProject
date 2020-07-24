@@ -31,6 +31,8 @@ public class ReservationService {
         reservationList.forEach(reservation -> {
             Club club = serviceFallbackFunctions.findClubById(reservation.getClubId());
             String nameClub = "Club not Found";
+            String provinceClub = "Club not Found";
+            String cityClub = "Club not Found";
             if (club == null){
                 DataNotFoundException ex = new DataNotFoundException("This uuid Club not exists. Parameter: " + reservation.getClubId());
 
@@ -38,6 +40,8 @@ public class ReservationService {
                 throw ex;
             } else {
                 nameClub = club.getName();
+                provinceClub = club.getProvince();
+                cityClub = club.getCity();
             }
 
             List<UserReservation> userReservationList =  serviceFallbackFunctions.findByUserReservationIDUuidReservation(reservation.getId());
@@ -50,9 +54,8 @@ public class ReservationService {
                 amountXPlayer = reservation.getAmount();
             }
 
-
-            reservationListViewModelList.add(new ReservationListViewModel(reservation.getId(), nameClub,
-                    userReservationList.size(), reservation.getDate(), amountXPlayer ));
+            reservationListViewModelList.add(new ReservationListViewModel(reservation.getId(), nameClub, provinceClub, cityClub,
+                    userReservationList.size(), reservation.getDate(), amountXPlayer, reservation.getPrivate() ));
         });
 
         return reservationListViewModelList;

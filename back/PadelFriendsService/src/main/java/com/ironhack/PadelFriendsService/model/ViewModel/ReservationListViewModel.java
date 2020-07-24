@@ -6,18 +6,24 @@ import java.time.LocalDateTime;
 public class ReservationListViewModel {
     private String id;
     private String nameClub;
+    private String provinceClub;
+    private String cityClub;
     private int numJug;
     private LocalDateTime date;
     private BigDecimal amount;
+    private Boolean isprivate;
 
     public ReservationListViewModel(){}
 
-    public ReservationListViewModel(String id, String nameClub, int numJug, LocalDateTime date, BigDecimal amount) {
+    public ReservationListViewModel(String id, String nameClub, String provinceClub, String cityClub, int numJug, LocalDateTime date, BigDecimal amount, Boolean isprivate) {
         this.id = id;
         this.nameClub = nameClub;
+        this.provinceClub = provinceClub;
+        this.cityClub = cityClub;
         this.numJug = numJug;
         this.date = date;
         this.amount = amount;
+        this.isprivate = isprivate;
     }
 
     public String getId() {
@@ -34,6 +40,22 @@ public class ReservationListViewModel {
 
     public void setNameClub(String nameClub) {
         this.nameClub = nameClub;
+    }
+
+    public String getProvinceClub() {
+        return provinceClub;
+    }
+
+    public void setProvinceClub(String provinceClub) {
+        this.provinceClub = provinceClub;
+    }
+
+    public String getCityClub() {
+        return cityClub;
+    }
+
+    public void setCityClub(String cityClub) {
+        this.cityClub = cityClub;
     }
 
     public int getNumJug() {
@@ -58,5 +80,13 @@ public class ReservationListViewModel {
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    public Boolean getIsprivate() {
+        return isprivate;
+    }
+
+    public void setIsprivate(Boolean isprivate) {
+        this.isprivate = isprivate;
     }
 }

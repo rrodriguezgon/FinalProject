@@ -9,7 +9,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-@FeignClient(name = "USER-SERVICE", url = "https://userserviceapi.herokuapp.com")
+@FeignClient(name = "USER-SERVICE", url = "https://userserviceapipadel.herokuapp.com/")
 public interface UserClient {
     /**
      *
