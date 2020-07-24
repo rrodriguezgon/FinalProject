@@ -1,11 +1,18 @@
 <app-navbar></app-navbar>
+<div class="text-center" *ngIf="showSpinner" >
+  <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+      <span class="sr-only">Loading...</span>
+  </div>                
+</div>   
 
 <div class="container-fluid" *ngIf="reservationDetails != null" >
   <button class="btn btn-success float-right" routerLink="/reservations">Return list</button>
   <button class="btn btn-success float-right" routerLink="/reservations/edit/{{reservationDetails.id}}" style="margin-right: 2%;">Edit</button>
-  <h1>Create Reservation</h1>
-
-  <div class="row">
+  <h1>Details Reservation</h1>
+  <div class="row"> 
+  <div class="alert alert-danger" role="alert" *ngIf="showAlert" (click)="hideAlert()" >
+      {{messageAlert}}
+  </div>  
       <div class="col-md-6 col-sm-12">
           <div class="row col-md-12 col-sm-12">
             <div class="col-md-6 col-sm-12">
@@ -47,8 +54,8 @@
             </div>
             <br>
             <div class="row">
-              <div class="col-md-12 col-sm-12">
-                <app-map></app-map>                
+              <div class="col-md-12 col-sm-12" style="height: 500px;">                
+                <app-map [latitude] ="reservationDetails.club.latitude" [longitude] = "reservationDetails.club.longitude"></app-map>                
               </div>              
             </div> 
           </div>          

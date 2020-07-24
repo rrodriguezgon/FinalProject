@@ -1,10 +1,20 @@
 <app-navbar></app-navbar>
+
+<div class="text-center" *ngIf="showSpinner" >
+    <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>                
+</div>  
+ 
 <div class="container-fluid" *ngIf="clubDetails != null">
     <button class="btn btn-success float-right" routerLink="/clubs">Return list</button>    
     <h1>Edit Club</h1>
   
     <form [formGroup] ="clubForm">
-    <div class="row">
+    <div class="row"> 
+        <div class="alert alert-danger" role="alert" *ngIf="showAlert" (click)="hideAlert()" >
+            {{messageAlert}}
+        </div>  
         <div class="col-md-6 col-sm-12" >
             <div class="col-md-12 col-sm-12">
                 <div class="form-group">
@@ -16,13 +26,19 @@
                 <div class="col-md-4 col-sm-12">
                     <div class="form-group">
                         <label for="provincetxt">Province: </label>
-                        <input type="text" class="form-control" id="provincetxt" [ngModel] ="clubDetails.province" formControlName="province">
+                        <select class="form-control" id="SelectProvince" (change) = "changeProvince($event.target.value)" formControlName="province" >
+                            <option value=''>--- Select Province ---</option>
+                            <option [value]="province.name" *ngFor='let province of provinceAndCities'>{{province.name}}</option>
+                        </select>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-12">
                     <div class="form-group">
-                        <label for="citytxt">City: </label>
-                        <input type="text" class="form-control" id="citytxt" [ngModel] ="clubDetails.city" formControlName="city">
+                        <label for="SelectCity">City: </label>
+                        <select class="form-control" id="SelectCity" (change) = "changeCity($event.target.value)" formControlName="city" >
+                            <option value=''> --- Select City --- </option>
+                            <option [value]="city" *ngFor='let city of cityList'>{{city}}</option>
+                        </select>
                     </div>
                 </div>  
                 <div class="col-md-4 col-sm-12">
@@ -37,7 +53,7 @@
             <h2>Ubication</h2>
             <div class="row">
                 <div class="col-md-8">
-                    <input type="text" class="form-control" id="searchtxt" [ngModel] = "clubDetails.ubication" formControlName="ubication">
+                    <input type="text" class="form-control" #searchtxt id="searchtxt" [ngModel] = "clubDetails.ubication" formControlName="ubication">
                 </div>
                 <div class="col-md-4">
                     <button type="submit" class="btn btn-primary">search</button>
@@ -45,8 +61,8 @@
             </div>      
             <br> 
             <div class="row">
-                <div class="col-md-12 col-sm-12">
-                    <app-map></app-map>                            
+                <div class="col-md-12 col-sm-12" style="height: 500px;">
+                    <app-map [showSearch] = "true" [latitude] ="clubDetails.latitude" [longitude] = "clubDetails.longitude" [placeholder] = "clubDetails.ubication" (countChanged)="countChangedHandler($event)"></app-map>                      
                 </div>              
             </div>                         
         </div>        

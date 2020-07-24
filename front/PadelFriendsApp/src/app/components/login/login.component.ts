@@ -15,6 +15,10 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   user: UserViewModel;
 
+  showSpinner = false;
+  showAlert = false;
+  messageAlert = '';
+
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
@@ -34,13 +38,25 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  hideAlert(): void {
+    this.showAlert = false;
+  }
+
   login(): void {
+    this.showSpinner = true;
     this.userService.login(this.loginForm.value).subscribe(
       (data) => {
         this.user = data;
         this.user.password = this.loginForm.value.password;
         localStorage.setItem('player', JSON.stringify(this.user));
         this.router.navigate(['/']);
+
+        this.showSpinner = false;
+      },
+      error => {
+        console.log(error);
+        this.messageAlert = 'It was not possible to connect to the server or have error. ';
+        this.showAlert = true;
       });
   }
 

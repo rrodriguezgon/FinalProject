@@ -8,14 +8,14 @@
                         <div class="form-group">
                             <label for="SelectProvince">Province</label>
                             <select class="form-control" id="SelectProvince" (change) = "changeProvince($event.target.value)">
-                                <option>--- Select Province ---</option>
-                                <option [value]="province" *ngFor='let province of provinceList'>{{province}}</option>
+                                <option value = ''>--- Select Province ---</option>
+                                <option [value]="province.name" *ngFor='let province of provinceAndCities'>{{province.name}}</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="SelectCity">City</label>
                             <select class="form-control" id="SelectCity" (change) = "changeCity($event.target.value)" >
-                                <option> --- Select City --- </option>
+                                <option value = ''> --- Select City --- </option>
                                 <option *ngFor='let city of cityList'>{{city}}</option>
                             </select>
                         </div>                        
@@ -27,9 +27,17 @@
         </div>
         <div class="col-md-9 col-sm-12">
             <button class="btn btn-success float-right" routerLink="/creategroup">New Group</button>
+            <div class="text-center" *ngIf="showSpinner" >
+                <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>                
+            </div>    
+            <div class="alert alert-danger" role="alert" *ngIf="showAlert" (click)="hideAlert()" >
+                {{messageAlert}}
+            </div>  
             <div id="BoxGroups">   
                 <div class="row">
-                    <div class="card" class="col-md-4 col-sm-12" *ngFor="let group of groupList" >
+                    <div class="card" class="col-md-4 col-sm-12" *ngFor="let group of groupListFilter" >
                         <img src="../../../assets/img/Club1.jpg" class="card-img-top" alt="...">
                         <div class="card-body">
                           <h5 class="card-title">{{group.name}}</h5> 

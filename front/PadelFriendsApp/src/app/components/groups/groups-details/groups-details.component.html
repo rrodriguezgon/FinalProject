@@ -1,4 +1,9 @@
 <app-navbar></app-navbar>
+<div class="text-center" *ngIf="showSpinner" >
+    <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>                
+</div>   
 <div class="container-fluid" *ngIf="groupDetails != null">
     <button class="btn btn-success float-right" routerLink="/groups">Return list</button>
     <button class="btn btn-success float-right" routerLink="/groups/edit/{{groupDetails.id}}" style="margin-right: 2%;" *ngIf="showEdit" >Edit</button>

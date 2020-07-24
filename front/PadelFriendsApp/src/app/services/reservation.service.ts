@@ -16,7 +16,7 @@ import { CreateReservationDto } from '../models/Reservation/CreateReservationDto
 })
 export class ReservationService {
 
-  urlPath = 'http://localhost:8080/reservations';
+  urlPath = 'https://padelfriendsapp.herokuapp.com/reservations';
 
   user: UserViewModel = JSON.parse(localStorage.getItem('player'));
 

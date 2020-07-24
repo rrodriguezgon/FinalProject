@@ -15,6 +15,7 @@ import { GroupService } from 'src/app/services/group.service';
 import { UserService } from 'src/app/services/user.service';
 import { Player } from 'src/app/models/User/Player';
 
+import { ProvinceAndCity } from 'src/app/models/ProvincesCities';
 @Component({
   selector: 'app-groups-form',
   templateUrl: './groups-form.component.html',
@@ -33,6 +34,16 @@ export class GroupsFormComponent implements OnInit {
   groupDetails: GroupDetails;
   groupForm: FormGroup;
 
+  cityList: string[] = [];
+
+  provinceSelected: string;
+  citySelected: string;
+
+  provinceAndCities = new ProvinceAndCity().provinces;
+
+  showSpinner = false;
+  showAlert = false;
+  messageAlert = '';
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -49,29 +60,42 @@ export class GroupsFormComponent implements OnInit {
       this.route.params.subscribe((params) => (this.groupId = params.id));
 
       if (this.groupId != null){
+        this.showSpinner = true;
+
         this.groupService.getGroupDetails(this.groupId).subscribe(
           data => {
             this.fillPlayers();
+            this.createForm(data);
             this.groupDetails = data;
-            this.createForm();
             this.playerList = [];
+            this.showSpinner = false;
           }
         );
       } else {
         this.fillPlayers();
-        this.createForm();
+        this.createForm(null);
         this.groupDetails = new GroupDetails();
       }
     }
   }
 
-  createForm(): void{
+  hideAlert(): void {
+    this.showAlert = false;
+  }
+
+  createForm(data: GroupDetails): void{
     this.groupForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(4)]],
       description: ['', [Validators.required, Validators.minLength(4)]],
       city: ['', [Validators.required, Validators.minLength(4)]],
       province: ['', [Validators.required, Validators.minLength(4)]],
     });
+
+    if (data != null){
+      this.groupForm.get('province').setValue(data.province);
+      this.provinceSelected = data.province;
+      this.fillCityList(data.city);
+    }
   }
 
   fillPlayers(): void {
@@ -167,6 +191,8 @@ export class GroupsFormComponent implements OnInit {
 
       this.groupService.createGroup(newGroup).subscribe(
         data => {
+          this.user.groupList.push(data);
+          localStorage.setItem('player', JSON.stringify(this.user));
           this.router.navigate(['/groups']);
         },
         error => {
@@ -175,5 +201,30 @@ export class GroupsFormComponent implements OnInit {
       );
     }
   }
+  }
+
+  fillCityList(nameCity: string): void {
+    if ( this.provinceSelected !== ''){
+      this.cityList = this.provinceAndCities.find(province => province.name === this.provinceSelected).cities;
+  
+      if (nameCity !== ''){
+        this.groupForm.get('city').setValue(nameCity);
+        this.citySelected = nameCity;
+      } else {
+        this.groupForm.get('city').setValue('');
+        this.citySelected = '';
+      }
+    } else {
+      this.cityList = [];
+    }
+  }
+  
+  changeProvince(value: string): void {
+    this.provinceSelected = value;
+    this.fillCityList('');
+  }
+  
+  changeCity(value: string): void {
+    this.citySelected = value;
   }
 }

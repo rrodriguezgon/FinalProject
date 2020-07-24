@@ -43,8 +43,7 @@ export class RegisterComponent implements OnInit {
     userRegister.role = 'ROLE_PLAYER';
 
     this.userService.register(userRegister).subscribe(data => {
-      localStorage.setItem('player', JSON.stringify(data));
-      this.router.navigate(['/']);
+      this.router.navigate(['/login']);
     });
   }
 }

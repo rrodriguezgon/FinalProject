@@ -19,6 +19,10 @@ export class ClubsDetailsComponent implements OnInit {
 
   showEdit = false;
 
+  showSpinner = false;
+  showAlert = false;
+  messageAlert = '';
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private clubService: ClubService) { }
@@ -32,16 +36,23 @@ export class ClubsDetailsComponent implements OnInit {
       this.route.params.subscribe((params) => (this.clubId = params.id));
 
       if (this.clubId != null){
+        this.showSpinner = true;
+
         this.clubService.getClub(this.clubId).subscribe(
           data => {
             this.clubDetails = data;
             this.checkPermissions();
+            this.showSpinner = false;
           }
         );
       }
     }
   }
 
+  hideAlert(): void {
+    this.showAlert = false;
+  }
+  
   checkPermissions(): void {
     if (this.user.role === 'ROLE_ADMIN'){
       this.showEdit = true;

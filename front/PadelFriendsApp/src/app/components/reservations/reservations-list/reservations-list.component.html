@@ -1,10 +1,9 @@
 <app-navbar></app-navbar>
-<div class="container-fluid">
+<div class="container-fluid">    
     <div class="row">
         <div class="col-md-3 col-sm-12">
             <div class="list-group" style="margin-bottom: 2%;">
-                <a [class.active]="isShowNextMatches" class="list-group-item list-group-item-action" (click) = "showNextMatches()">Next Matches</a>
-                <a [class.active]="isshowNextMatchesGroups" class="list-group-item list-group-item-action" (click) = "showNextMatchesGroups()">Next matches of your groups</a>
+                <a [class.active]="isShowNextMatches" class="list-group-item list-group-item-action" (click) = "showNextMatches()">Next Matches</a>               
                 <a [class.active]="isshowNextPublicMatches" class="list-group-item list-group-item-action" (click) = "showNextPublicMatches()">Upcoming Public Matches</a>                
             </div>
 
@@ -14,14 +13,14 @@
                         <div class="form-group">
                             <label for="SelectProvince">Province</label>
                             <select class="form-control" id="SelectProvince" (change) = "changeProvince($event.target.value)">
-                                <option>--- Select Province ---</option>
-                                <option [value]="province" *ngFor='let province of provinceList'>{{province}}</option>
+                                <option value=''>--- Select Province ---</option>
+                                <option [value]="province.name" *ngFor='let province of provinceList'>{{province.name}}</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="SelectCity">City</label>
                             <select class="form-control" id="SelectCity" (change) = "changeCity($event.target.value)" >
-                                <option> --- Select City --- </option>
+                                <option value=''> --- Select City --- </option>
                                 <option *ngFor='let city of cityList'>{{city}}</option>
                             </select>
                         </div>  
@@ -31,39 +30,33 @@
             </div>
         </div>
         <div class="col-md-9 col-sm-12">                            
-            <button class="btn btn-success float-right" routerLink="/createreservation">New reservation</button>                
-            
+            <button class="btn btn-success float-right" routerLink="/createreservation">New reservation</button>         
+            <div class="text-center" *ngIf="showSpinner" >
+                <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>                
+            </div>    
+            <div class="alert alert-danger" role="alert" *ngIf="showAlert" (click)="hideAlert()" >
+                {{messageAlert}}
+            </div>   
             <div id="BoxNextMatches" *ngIf="isShowNextMatches">   
                 <div class="row">
-                  <div class="card" class="col-md-4 col-sm-12" *ngFor="let reservation of reservationsUserList" >
+                  <div class="card" class="col-md-4 col-sm-12" *ngFor="let reservation of reservationsUserListFilter" >
                     <img src="../../../assets/img/Club1.jpg" class="card-img-top" alt="...">
                     <div class="card-body">
                       <h5 class="card-title">{{reservation.nameClub}}</h5>
+                      <p class="card-text">{{reservation.cityClub}} - {{reservation.provinceClub}}</p>
                       <p class="card-text">{{reservation.date | date : "medium"}}</p>
                       <p class="card-text">Num Jug: {{reservation.numJug}}</p>           
                       <p class="card-text">Price: {{reservation.amount}} €  </p>
                       <a routerLink="/reservations/{{reservation.id}}" class="btn btn-primary">Details</a>                                
                     </div>
-                </div>                      
+                    </div>                      
                 </div>
-            </div>
-            <div id="BoxNextMatchesGroups" *ngIf="isshowNextMatchesGroups">
-                <div class="row">
-                  <div class="card" class="col-md-4 col-sm-12" *ngFor="let reservation of reservationsGroupList" >
-                    <img src="../../../assets/img/Club1.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">{{reservation.nameClub}}</h5>
-                        <p class="card-text">{{reservation.date | date : "medium"}}</p>
-                        <p class="card-text">Num Jug: {{reservation.numJug}}</p>           
-                        <p class="card-text">Price: {{reservation.amount}} €  </p>
-                      <a routerLink="/reservations/{{reservation.id}}" class="btn btn-primary">Details</a>                                
-                    </div>
-                </div>      
-                </div> 
             </div>
             <div id="BoxNextPublicMatches" *ngIf="isshowNextPublicMatches">
                 <div class="row">
-                  <div class="card" class="col-md-4 col-sm-12" *ngFor="let reservation of reservationsPublicList" >
+                  <div class="card" class="col-md-4 col-sm-12" *ngFor="let reservation of reservationsPublicListFilter" >
                     <img src="../../../assets/img/Club1.jpg" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">{{reservation.nameClub}}</h5>
@@ -74,19 +67,7 @@
                     </div>
                 </div>        
                 </div>    
-            </div>
-            
-            <div class="row" style="margin-bottom: 2%;">
-                <button class="btn btn-success">Location in Map</button>                
             </div>            
-
-            <div id="BoxShowinMap">
-                <div class="row">                    
-                    <div class="col-md-12 col-sm-12" style="height: 500px;" >
-                        <app-map></app-map>
-                    </div>                               
-                </div>
-            </div>
         </div>
     </div>
 </div>

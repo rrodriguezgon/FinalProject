@@ -10,7 +10,7 @@ import { Player } from '../models/User/Player';
 })
 export class UserService {
 
-  urlPath = 'https://padelfriends.herokuapp.com/users';
+  urlPath = 'https://padelfriendsapp.herokuapp.com/users';
 
   user: UserViewModel = JSON.parse(localStorage.getItem('currentUser'));
 

@@ -1,11 +1,29 @@
 <app-navbar></app-navbar>
+<div class="text-center" *ngIf="showSpinner" >
+  <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+      <span class="sr-only">Loading...</span>
+  </div>                
+</div> 
 
 <div class="container-fluid" *ngIf="reservationDetails != null">
   <button class="btn btn-success float-right" routerLink="/reservations">Return list</button>  
-  <h1>Create Reservation</h1>
+  <div *ngIf="!showButtonSpinner">
+    <button class="btn btn-primary float-right" (click) = "submitForm()" > {{title}}</button>
+  </div>
+  <div *ngIf="showButtonSpinner">
+    <button class="btn btn-primary float-right" type="button" disabled>
+      <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+      {{title}} ...
+    </button>
+  </div>
+  
+  <h1>{{title}} Reservation</h1>
+  <div class="alert alert-danger" role="alert" *ngIf="showAlert" (click)="hideAlert()" >
+    {{messageAlert}} click me to make it go away
+  </div>  
 
-  <div class="row">
-      <div class="col-md-6 col-sm-12">
+  <div class="row">  
+      <div class="col-md-6 col-sm-12" style="margin-bottom: 10px;">
           <div class="row col-md-12 col-sm-12">
             <div class="col-md-6 col-sm-12">
               <div class="form-group">
@@ -21,8 +39,15 @@
             </div>   
             <div class="col-md-6 col-sm-12">
               <div class="form-group">
-                  <label for="hourtxt">Hour: </label>
-                  <ngb-timepicker [(ngModel)]="hourReservation"></ngb-timepicker>
+                <div class="row">
+                  <div class="col-md-6 col-sm-12">
+                    <label for="hourtxt">Hour: </label>
+                  </div>
+                  <div class="col-md-6 col-sm-12">
+                    <ngb-timepicker [(ngModel)]="hourReservation"></ngb-timepicker>
+                  </div>                  
+                </div>
+                  
               </div>
             </div>             
           </div>   
@@ -58,7 +83,12 @@
                   </select>
             </div>
           </div> 
-          <div id ="BoxInfoClub" *ngIf="clubSelected != null">
+          <div class="text-center" *ngIf="showSpinnerClub" >
+            <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>                
+          </div> 
+          <div id ="BoxInfoClub" *ngIf="clubSelected != null" >
             <div class="card">
               <div class="card-header"> {{clubSelected.name}} </div>
               <div class="card-body">
@@ -79,8 +109,8 @@
             </div>
             <br>
             <div class="row">
-              <div class="col-md-12 col-sm-12">
-                <app-map></app-map>                            
+              <div class="col-md-12 col-sm-12" style="height: 500px;">                
+                <app-map [latitude] ="clubSelected.latitude" [longitude] = "clubSelected.longitude"></app-map>                            
               </div>              
             </div> 
           </div>   
@@ -152,7 +182,7 @@
   <div class="row">
     <div class="col-md-12 col-sm-12">
         <div class="text-center">
-            <button class="btn btn-primary" (click) = "submitForm()" >Create</button>
+            <button class="btn btn-primary" (click) = "submitForm()" >{{title}}</button>
         </div>            
     </div>
 </div>

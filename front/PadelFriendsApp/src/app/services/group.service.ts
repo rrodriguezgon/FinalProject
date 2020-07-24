@@ -13,7 +13,7 @@ import { UserViewModel } from '../models/User/UserViewModel';
 })
 export class GroupService {
 
-  urlPath = 'http://localhost:8080/groups';
+  urlPath = 'https://padelfriendsapp.herokuapp.com/groups';
 
   user: UserViewModel = JSON.parse(localStorage.getItem('player'));
 

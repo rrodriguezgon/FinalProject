@@ -6,6 +6,7 @@ import { Group } from 'src/app/models/Group/Group';
 
 import { GroupService } from '../../../services/group.service';
 
+import { ProvinceAndCity } from 'src/app/models/ProvincesCities';
 @Component({
   selector: 'app-groups-list',
   templateUrl: './groups-list.component.html',
@@ -23,6 +24,14 @@ export class GroupsListComponent implements OnInit {
 
   groupList: Group[];
 
+  groupListFilter: Group[];
+
+  provinceAndCities = new ProvinceAndCity().provinces;
+
+  showSpinner = false;
+  showAlert = false;
+  messageAlert = '';
+
   constructor(private router: Router, private groupService: GroupService) {  }
 
   ngOnInit(): void {
@@ -32,33 +41,30 @@ export class GroupsListComponent implements OnInit {
     if (this.user == null){
       this.router.navigate(['/login']);
     } else {
+      this.showSpinner = true;
       this.groupService.getGroups().subscribe(
       data => {
-        console.log(data);
         this.groupList = data;
-        this.fillProvinceList(data);
+        this.groupListFilter = data;
+        this.showSpinner = false;
     });
     }
   }
 
-  fillProvinceList(data: Group[]): void {
-    this.provinceSelected = '';
-    this.provinceList.push('MADRID');
-    this.provinceList.push('GIRONA');
+  hideAlert(): void {
+    this.showAlert = false;
   }
 
   fillCityList(): void {
-    this.cityList = [];
-    this.citySelected = '';
+    if ( this.provinceSelected !== ''){
+      this.cityList = this.provinceAndCities.find(province => province.name === this.provinceSelected).cities;
+      this.citySelected = '';
 
-    if (this.provinceSelected === 'MADRID'){
-      this.cityList.push('MOSTOLES');
-      this.cityList.push('ALCORCON');
-      this.cityList.push('POZUELO DE ALARCON');
-    } else if (this.provinceSelected === 'GIRONA')
-    {
-      this.cityList.push('FIGUERES');
-      this.cityList.push('GIRONA');
+      this.groupListFilter = this.groupList.filter(group => group.province === this.provinceSelected);
+
+    } else {
+      this.cityList = [];
+      this.groupListFilter = this.groupList;
     }
   }
 
@@ -68,6 +74,11 @@ export class GroupsListComponent implements OnInit {
   }
 
   changeCity(value: string): void {
-    this.citySelected = value;
+
+    if (value !== ''){
+      this.groupListFilter = this.groupList.filter(group => group.city === value);
+    } else {
+      this.groupListFilter = this.groupList.filter(group => group.province === this.provinceSelected);
+    }
   }
 }

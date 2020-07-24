@@ -11,4 +11,9 @@ export class ClubViewModel{
     latitude: number;
     longitude: number;
     reservationList: Reservation[];
+
+    constructor(){
+        this.longitude = -3.707347;
+        this.latitude = 40.407353;
+    }
 }

@@ -16,6 +16,8 @@ import { NgbDateStruct, NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap'
 import { User } from 'src/app/models/User/User';
 
 import { CreateReservationDto } from 'src/app/models/Reservation/CreateReservationDto';
+import { flatten } from '@angular/compiler';
+import { Reservation } from 'src/app/models/Reservation/Reservation';
 
 @Component({
   selector: 'app-reservations-form',
@@ -49,6 +51,14 @@ export class ReservationsFormComponent implements OnInit {
   groupIdSelected = '';
   groupNameSelected = '';
 
+  showSpinner = true;
+  showSpinnerClub = false;
+  showButtonSpinner = false;
+  showAlert = false;
+  messageAlert = '';
+
+  title = 'Create';
+
   constructor(private calendar: NgbCalendar,
               private reservationService: ReservationService,
               private userService: UserService,
@@ -69,6 +79,8 @@ export class ReservationsFormComponent implements OnInit {
         });
 
       if (this.reservationId != null){
+        this.title = 'Edit';
+        this.showSpinner = true;
         this.reservationService.getReservation(this.reservationId).subscribe(
           data => {
             this.fillClubs();
@@ -76,19 +88,20 @@ export class ReservationsFormComponent implements OnInit {
             this.fillPlayers(data.userList);
             this.fillGroups(data.groupList);
 
-            let year = Number(data.date.toString().substr(0, 4));
-            let day = Number(data.date.toString().substr(8, 2));
-            let month = Number(data.date.toString().substr(5, 2));
+            const year = Number(data.date.toString().substr(0, 4));
+            const day = Number(data.date.toString().substr(8, 2));
+            const month = Number(data.date.toString().substr(5, 2));
 
             this.dateReservation = new NgbDate(year, month, day);
 
-            let hour = Number(data.date.toString().substr(11, 2));
-            let minute = Number(data.date.toString().substr(14, 2));
+            const hour = Number(data.date.toString().substr(11, 2));
+            const minute = Number(data.date.toString().substr(14, 2));
 
             this.hourReservation.hour = hour;
             this.hourReservation.minute = minute;
 
             this.reservationDetails = data;
+            this.showSpinner = false;
           }
         );
       } else {
@@ -97,8 +110,13 @@ export class ReservationsFormComponent implements OnInit {
         this.fillGroups([]);
         this.reservationDetails = new ReservationItemViewModel();
         this.dateReservation = this.calendar.getToday();
+        this.showSpinner = false;
       }
     }
+  }
+
+  hideAlert(): void {
+    this.showAlert = false;
   }
 
   selectToday(): void {
@@ -109,14 +127,26 @@ export class ReservationsFormComponent implements OnInit {
     this.clubService.getClubs().subscribe(
       data => {
         this.clubs = data;
+
+        if (this.clubs.length === 0){
+          this.messageAlert = 'No have Results Clubs';
+          this.showAlert = true;
+        }
     });
   }
 
   changeClub(value: string ): void{
+    this.showSpinnerClub = true;
     this.clubService.getClub(value).subscribe(
       data => {
         this.clubSelected = data;
-        console.log(this.clubSelected);
+
+        if (this.clubSelected === null){
+          this.messageAlert = 'No have Results Club';
+          this.showAlert = true;
+        }
+
+        this.showSpinnerClub = false;
       });
   }
 
@@ -127,6 +157,11 @@ export class ReservationsFormComponent implements OnInit {
   fillPlayers(users: User[]): void {
     this.userService.getPlayers().subscribe(data => {
       this.playerList = data;
+
+      if (this.playerList.length === 0){
+        this.messageAlert = 'No have Results players';
+        this.showAlert = true;
+      }
 
       if (users.length > 0){
         users.map(user => {
@@ -173,6 +208,11 @@ export class ReservationsFormComponent implements OnInit {
   fillGroups(groups: Group[]): void {
     this.groupService.getGroups().subscribe(data => {
       this.groupList = data;
+
+      if (this.groupList.length === 0){
+        this.messageAlert = 'No have Results groups';
+        this.showAlert = true;
+      }
 
       if (groups.length > 0){
         groups.map(group => {
@@ -232,11 +272,8 @@ export class ReservationsFormComponent implements OnInit {
   }
 
   submitForm(): void{
-    if (this.dateReservation != null &&
-      this.hourReservation != null &&
-      this.clubSelected != null &&
-      this.reservationDetails.amount != null &&
-      this.reservationDetails.status !== ''){
+    this.showButtonSpinner = true;
+    if (this.checkValidations()){
 
       const userList = [];
 
@@ -261,6 +298,9 @@ export class ReservationsFormComponent implements OnInit {
               },
               error => {
                 console.log(error);
+                this.messageAlert = 'It was not possible to connect to the server or have error. ';
+                this.showAlert = true;
+                this.showButtonSpinner = false;
               }
             );
           } else {
@@ -270,11 +310,53 @@ export class ReservationsFormComponent implements OnInit {
               },
               error => {
                 console.log(error);
+                this.messageAlert = 'It was not possible to connect to the server or have error. ';
+                this.showAlert = true;
+                this.showButtonSpinner = false;
               }
             );
           }
-    } else {
-      console.log('faltan campos');
     }
+
+    this.showButtonSpinner = false;
+  }
+
+  checkValidations(): boolean{
+    if (this.dateReservation === null){
+      this.showAlert = true;
+
+      this.messageAlert = 'Date Reservation is empty.';
+      return false;
+    }
+
+    if (this.hourReservation === null){
+      this.showAlert = true;
+
+      this.messageAlert = 'Hour Reservation is empty.';
+      return false;
+    }
+
+    if (this.clubSelected === null || this.clubSelected === undefined){
+      this.showAlert = true;
+
+      this.messageAlert = 'Club not selected.';
+      return false;
+    }
+
+    if (this.reservationDetails.amount === null){
+      this.showAlert = true;
+
+      this.messageAlert = 'Amount not inserted.';
+      return false;
+    }
+
+    if (this.reservationDetails.status === ''){
+      this.showAlert = true;
+
+      this.messageAlert = 'Status not selected.';
+      return false;
+    }
+
+    return true;
   }
 }

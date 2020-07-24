@@ -7,6 +7,8 @@ import { Club } from 'src/app/models/Club/Club';
 
 import { ClubService } from 'src/app/services/club.service';
 
+import { ProvinceAndCity } from 'src/app/models/ProvincesCities';
+
 @Component({
   selector: 'app-clubs-list',
   templateUrl: './clubs-list.component.html',
@@ -23,6 +25,13 @@ export class ClubsListComponent implements OnInit {
   citySelected: string;
 
   clubList: Club[];
+  clubListFilter: Club[];
+
+  provinceAndCities = new ProvinceAndCity().provinces;
+
+  showSpinner = true;
+  showAlert = false;
+  messageAlert = '';
 
   constructor(private router: Router, private clubService: ClubService) {  }
 
@@ -30,37 +39,36 @@ export class ClubsListComponent implements OnInit {
 
     this.user = JSON.parse(localStorage.getItem('player'));
 
-
     if (this.user == null){
       this.router.navigate(['/login']);
     } else {
+      this.showSpinner = true;
+
       this.clubService.getClubs().subscribe(
       data => {
         console.log(data);
         this.clubList = data;
-        this.fillProvinceList(data);
+        this.clubListFilter = data;
+
+        this.showSpinner = false;
     });
     }
   }
 
-  fillProvinceList(data: Club[]): void {
-    this.provinceSelected = '';
-    this.provinceList.push('MADRID');
-    this.provinceList.push('GIRONA');
+  hideAlert(): void {
+    this.showAlert = false;
   }
 
   fillCityList(): void {
-    this.cityList = [];
-    this.citySelected = '';
+    if ( this.provinceSelected !== ''){
+      this.cityList = this.provinceAndCities.find(province => province.name === this.provinceSelected).cities;
+      this.citySelected = '';
 
-    if (this.provinceSelected === 'MADRID'){
-      this.cityList.push('MOSTOLES');
-      this.cityList.push('ALCORCON');
-      this.cityList.push('POZUELO DE ALARCON');
-    } else if (this.provinceSelected === 'GIRONA')
-    {
-      this.cityList.push('FIGUERES');
-      this.cityList.push('GIRONA');
+      this.clubListFilter = this.clubList.filter(group => group.province === this.provinceSelected);
+
+    } else {
+      this.cityList = [];
+      this.clubListFilter = this.clubList;
     }
   }
 
@@ -70,7 +78,11 @@ export class ClubsListComponent implements OnInit {
   }
 
   changeCity(value: string): void {
-    this.citySelected = value;
-  }
 
+    if (value !== ''){
+      this.clubListFilter = this.clubListFilter.filter(group => group.city === value);
+    } else {
+      this.clubListFilter = this.clubList.filter(group => group.province === this.provinceSelected);
+    }
+  }
 }

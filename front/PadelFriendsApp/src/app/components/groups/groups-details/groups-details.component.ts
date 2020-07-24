@@ -18,6 +18,11 @@ export class GroupsDetailsComponent implements OnInit {
   groupDetails: GroupDetails;
 
   showEdit = false;
+
+  showSpinner = false;
+  showAlert = false;
+  messageAlert = '';
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private groupService: GroupService) { }
@@ -31,10 +36,12 @@ export class GroupsDetailsComponent implements OnInit {
       this.route.params.subscribe((params) => (this.groupId = params.id));
 
       if (this.groupId != null){
+        this.showSpinner = true;
         this.groupService.getGroupDetails(this.groupId).subscribe(
           data => {
             this.groupDetails = data;
             this.checkPermissions();
+            this.showSpinner = false;
           }
         );
       }
